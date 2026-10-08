@@ -99,6 +99,18 @@ export function gradeQuestion(question, answer) {
   return { status: correct ? 'correct' : 'incorrect', correct, points: Number(correct), normalizedAnswer };
 }
 
+/** Non-overlapping progress counts, without grading or revealing answers. */
+export function getProgressCounts(session) {
+  const counts = { answered: 0, unanswered: 0, skipped: 0, unpresented: 0 };
+  for (const id of session.questionIds) {
+    if (!empty(session.answers[id])) counts.answered += 1;
+    else if (session.skippedIds.includes(id)) counts.skipped += 1;
+    else if (session.viewedIds.includes(id)) counts.unanswered += 1;
+    else counts.unpresented += 1;
+  }
+  return counts;
+}
+
 export function getResults(questions, session) {
   const rows = questions.map(question => {
     const answer = session.answers[question.id] ?? null;
@@ -116,6 +128,7 @@ export function getResults(questions, session) {
   const count = status => rows.filter(row => row.status === status).length;
   const correct = count('correct'), incorrect = count('incorrect'), needsReview = count('needs-review');
   const attempted = correct + incorrect + needsReview;
+  const cliAttempted = rows.filter(row => kind(row.question) === 'cli' && !empty(row.answer)).length;
   const topicNames = [...new Set(questions.map(q => q.domain ?? q.topic))];
   const topics = topicNames.map(topic => {
     const group = rows.filter(r => (r.question.domain ?? r.question.topic) === topic);
@@ -123,7 +136,7 @@ export function getResults(questions, session) {
     const right = group.filter(r => r.status === 'correct').length;
     return { topic, attempted: attempts, correct: right, accuracy: attempts ? 100 * right / attempts : null, needsReview: group.filter(r => r.status === 'needs-review').length, total: group.length, sources: [...new Set(group.flatMap(r => r.question.sources ?? []))], sourceSections: [...new Set(group.flatMap(r => r.question.source_sections ?? []))] };
   });
-  return { total: questions.length, maxScore: questions.length, correct, incorrect, skipped: count('skipped'), unanswered: count('unanswered'), unpresented: count('unpresented'), needsReview, attempted, accuracy: attempted ? 100 * correct / attempted : null, score: correct, percentage: questions.length ? 100 * correct / questions.length : 0, provisional: needsReview > 0, selfAssessed: rows.filter(r => r.selfAssessed).length, questions: rows, topics };
+  return { total: questions.length, maxScore: questions.length, correct, incorrect, skipped: count('skipped'), unanswered: count('unanswered'), unpresented: count('unpresented'), needsReview, cliAttempted, attempted, accuracy: attempted ? 100 * correct / attempted : null, score: correct, percentage: questions.length ? 100 * correct / questions.length : 0, provisional: needsReview > 0, selfAssessed: rows.filter(r => r.selfAssessed).length, questions: rows, topics };
 }
 
 // This is a bounded command interpreter, not an IOS emulator. Unrecognized syntax

@@ -11,7 +11,7 @@ for(const match of [...html.matchAll(/<link\b[^>]*href="([^"]+\.css)"[^>]*>/g)])
   html=html.replace(match[0],()=>`<style>${css}</style>`);
 }
 html=html.replace(/<link\b[^>]*rel="modulepreload"[^>]*>/g,'');
-const licenseFiles=[['DM Sans','node_modules/@fontsource-variable/dm-sans/LICENSE'],['Marked','node_modules/marked/LICENSE.md'],['DOMPurify','node_modules/dompurify/LICENSE']];
+const licenseFiles=[['Packt reference repository','src/reference-license.txt'],['DM Sans','node_modules/@fontsource-variable/dm-sans/LICENSE'],['Marked','node_modules/marked/LICENSE.md'],['DOMPurify','node_modules/dompurify/LICENSE']];
 const notices=(await Promise.all(licenseFiles.map(async ([name,file])=>name+'\n'+await readFile(file,'utf8')))).join('\n\n');
 await writeFile(path.join(root,'THIRD-PARTY-LICENSES.txt'),notices);
 const bodyEnd=html.lastIndexOf('</body>');

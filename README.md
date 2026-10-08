@@ -54,6 +54,7 @@ npm run dev -- --port 5173
 # In another terminal:
 npm run test:browser
 node tests/qol-browser.mjs
+node tests/feedback-browser.mjs
 ```
 
 Browser tests use the system Chromium at `/usr/bin/chromium`. Set `CHROMIUM_PATH` to your local Chromium executable, and `SITE_URL` if using another port. They exercise all question formats, scoring, persistence, early completion, study feedback, review export, retest, mobile layout, and accessibility. The QoL suite also checks legacy saved progress, revisit navigation, the review checkpoint, and fresh-start restoration. Screenshots and reports are saved in the ignored `artifacts/` directory.
@@ -69,3 +70,5 @@ For the first deployment, open the repository's **Settings → Pages** and choos
 A private repository may require a GitHub plan that supports Pages. Do not make the repository public merely to enable hosting without the owner's explicit approval.
 
 The published link is accessible across devices. Progress remains local to each browser and does not sync between devices. All answer keys are client-side because this is a personal practice tool.
+
+Reference attribution and the repository-level license review are documented in [References and attribution](docs/REFERENCES.md). The feedback regression suite verifies finish counts, CLI attempts versus pending review, full option labels, timer behavior and mobile references.

@@ -1,0 +1,116 @@
+import { chromium } from 'playwright';
+import AxeBuilder from '@axe-core/playwright';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import { createSession } from '../src/exam-engine.js';
+const { questions } = JSON.parse(await readFile('src/exam-data.json', 'utf8'));
+const q = id => questions.find(q => q.id === id);
+const key = 'packetwise.session.v1';
+const base = () => ({ session: createSession(questions), kind: 'main', retestIds: [], drafts: {}, flags: [], timer: { remaining: 3600, running: false, deadline: null }, feedbackId: null });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] });
+const reports = [], errors = [];
+await mkdir('artifacts', { recursive: true });
+try {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  page.on('pageerror', e => errors.push(e.message));
+  await page.clock.install();
+  await page.goto(process.env.SITE_URL || 'http://127.0.0.1:5173');
+  const state = () => page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+  async function seed(data) {
+    await page.evaluate(({ key, data }) => localStorage.setItem(key, JSON.stringify(data)), { key, data });
+    await page.reload(); await page.locator('.question-card').waitFor();
+  }
+  async function audit(name) {
+    const results = await new AxeBuilder({ page }).analyze();
+    reports.push({ name, violations: results.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target) })) });
+  }
+  const d = base();
+  d.session.currentIndex = 17;
+  d.session.viewedIds = questions.slice(0, 18).map(q => q.id);
+  d.session.answers = Object.fromEntries(questions.slice(0, 17).filter(q => q.id !== 2).map(q => [q.id, q.correct_answer]));
+  d.session.skippedIds = [2]; d.flags = [8, 18]; d.drafts[18] = 'A';
+  await seed(d);
+  await page.locator('[data-action="finish"]').click();
+  assert.equal(await page.locator('.finish-counts').innerText(), '16 answered · 1 unanswered · 1 skipped · 12 not presented. Total: 30.');
+  assert.match(await page.locator('.modal-body').innerText(), /2 flagged for review \(flags overlap/);
+  assert.equal(await page.locator('.answer-comparison').count(), 0);
+  await audit('finish counts');
+  await page.locator('[data-action="confirm-finish"]').click();
+  assert.match(await page.locator('.cli-attempt-summary').innerText(), /CLI questions attempted: 3 · Awaiting manual review: 0/);
+  assert.match(await page.locator('.stat-card').last().innerText(), /0\s*Awaiting CLI review/);
+  await audit('results with CLI counts');
+  await page.screenshot({ path: 'artifacts/feedback-results.png', fullPage: true });
+  const downloadPromise = page.waitForEvent('download');
+  await page.locator('[data-action="download"]').click();
+  const download = await downloadPromise;
+  const exported = await readFile(await download.path(), 'utf8');
+  assert.match(exported, /CLI questions attempted: 3/);
+  assert.ok(exported.includes(`B — ${q(1).options.B}`));
+  const fresh = base(); fresh.flags = [1];
+  await seed(fresh);
+  await page.locator('[data-action="review-flags"]').click();
+  assert.match(await page.locator('.modal-header').innerText(), /EXAM MODE · CORRECTNESS HIDDEN/);
+  await page.keyboard.press('Escape');
+  await page.locator('[data-action="mode-study"]').click();
+  await page.locator('[data-action="review-flags"]').click();
+  assert.match(await page.locator('.modal-header').innerText(), /STUDY MODE · FEEDBACK AFTER SUBMISSION/);
+  await page.keyboard.press('Escape');
+  for (const id of [1, 6, 5, 21, 8]) {
+    const data = base(); data.session.mode = 'study'; data.session.currentIndex = id - 1; data.session.viewedIds = [id];
+    await seed(data);
+    const question = q(id), answer = question.correct_answer;
+    if (/cli/i.test(question.format)) await page.locator('#cli-answer').fill(Array.isArray(answer) ? answer.join('\n') : answer);
+    else if (/matching/i.test(question.format)) for (const [item, value] of Object.entries(answer)) await page.locator(`#match-${item}`).selectOption(value);
+    else if (/ordering/i.test(question.format)) for (const [item, value] of answer.entries()) await page.locator(`#order-${item}`).selectOption(value);
+    else for (const value of Array.isArray(answer) ? answer : [answer]) await page.locator(`input[value="${value}"]`).check();
+    await page.locator('[data-action="submit"]').click();
+    const displayed = await page.locator('.answer-comparison pre').allTextContents();
+    assert.equal(displayed[0], displayed[1]);
+    if (id === 1) assert.equal(displayed[0], `B — ${question.options.B}`);
+    if (id === 6) assert.ok(displayed[0].includes(question.options.B) && displayed[0].includes(question.options.C));
+    if (id === 5) assert.match(displayed[0], /1 → B — Link-local/);
+    if (id === 21) assert.match(displayed[0], /1\. D — DHCPDISCOVER/);
+    if (id === 8) assert.equal(displayed[0], Array.isArray(answer) ? answer.join('\n') : answer);
+    await page.locator('[data-action="continue-study"]').last().click();
+  }
+  await seed(base());
+  await page.locator('[data-action="timer"]').click();
+  await page.clock.runFor(5000);
+  const seconds = async () => (await page.locator('#timer-clock').innerText()).split(':').reduce((minutes, seconds) => Number(minutes) * 60 + Number(seconds));
+  const beforeReload = await seconds();
+  assert.ok(beforeReload >= 3594 && beforeReload <= 3596, 'Five seconds elapsed, allowing the one-second display tick');
+  await page.reload(); assert.ok(Math.abs(await seconds() - beforeReload) <= 1, 'Reload keeps the original deadline');
+  await page.locator('[data-action="timer"]').click();
+  const paused = await seconds();
+  await page.clock.runFor(10000);
+  assert.equal(await seconds(), paused);
+  await page.locator('[data-action="timer"]').click();
+  await page.clock.fastForward(3600000);
+  assert.equal(await page.locator('#timer-clock').innerText(), '00:00');
+  assert.equal((await state()).timer.running, false);
+  assert.equal((await state()).session.status, 'active');
+  assert.equal(await page.locator('.results-hero').count(), 0);
+  reports.push({ name: 'timer starts, pauses, survives reload, resumes and expires without grading', passed: true });
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 844 });
+    await seed(base());
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    const typography = await page.locator('.site-footer').evaluate(el => ({ size: parseFloat(getComputedStyle(el).fontSize), color: getComputedStyle(el).color }));
+    assert.ok(typography.size >= 14); assert.equal(typography.color, 'rgb(54, 75, 63)');
+    assert.equal(await page.locator('.packt-mark').count(), 0);
+    await page.locator('[data-action="sources"]').last().click();
+    assert.match(await page.locator('.modal-intro').innerText(), /not affiliated with or endorsed by Cisco or Packt/);
+    await page.locator('.reference-license summary').click();
+    assert.match(await page.locator('.reference-license pre').innerText(), /MIT License\s+Copyright \(c\) 2020 Packt/);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await audit(`references and license at ${width}px`);
+    await page.keyboard.press('Escape');
+    await audit(`exam at ${width}px`);
+    await page.screenshot({ path: `artifacts/feedback-mobile-${width}.png`, fullPage: true });
+  }
+  assert.deepEqual(errors, []);
+  await writeFile('artifacts/feedback-browser-results.json', JSON.stringify({ reports, errors }, null, 2));
+  console.log(JSON.stringify({ reports, errors }, null, 2));
+  assert.equal(reports.flatMap(r => r.violations || []).length, 0);
+} finally { await browser.close(); }

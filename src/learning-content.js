@@ -68,7 +68,7 @@ export const sourceGroups = [
   {
     id: 'automation', title: 'Automation & further reading',
     sections: 'Study notes 38-02/04/05/06/08/10/11, 39-02/03 and 34-02/05',
-    topics: 'JSON and controller APIs are tested. Other inspected material covers REST, configuration tools, AI, Syslog and SNMP.',
+    topics: 'JSON and controller APIs are tested. Further reading covers REST, configuration tools, AI, Syslog and SNMP.',
     links: [
       link('38-04 · Serialization formats', 'Study Notes/38 Network Automation and Programmability/38-04 Data Serialization Formats - XML, JSON and YAML.pdf'),
       link('38-10 · Software Defined Networking', 'Study Notes/38 Network Automation and Programmability/38-10 SDN Software Defined Networking.pdf'),
@@ -76,9 +76,9 @@ export const sourceGroups = [
     ],
   },
   {
-    id: 'inventory', title: 'What was actually inspected',
+    id: 'inventory', title: 'Reference coverage',
     sections: 'README, selected extracted PDF text and a small Anki v1.4 sample',
-    topics: 'The README, 62 selected study-note/lab PDFs and 11 complete text notes from the Anki deck were inspected. This is partial resource coverage, not the full textbook or course.',
+    topics: 'The README, 62 selected study-note/lab PDFs and 11 complete text notes from the Anki deck were used as references. This is partial resource coverage, not the full textbook or course.',
     links: [
       link('Repository README', 'README.md'),
       link('Sampled Anki v1.4 archive', 'Anki Flashcards/Flackbox Anki Flashcards CCNA 200-301 v1.4.zip'),
@@ -88,10 +88,10 @@ export const sourceGroups = [
 
 export const coverageNotes = [
   'This is an original practice exam grounded in selected Packt repository material. Its 30-question count, scoring and topic proportions are practice settings, not official Cisco exam settings.',
-  'Current Cisco blueprint verification was blocked by the network proxy during source inspection. The current exam version, official weights and blueprint gaps remain unverified; comprehensive alignment is not claimed.',
-  'PDF text was inspected, but most embedded diagrams were not. Seven demo PDFs yielded almost no usable text and were excluded. Packet Tracer .pkt projects were neither decoded nor executed; CLI questions are text simulations.',
+  'Current Cisco exam-version alignment, official topic weights and a complete blueprint comparison have not been verified for this question set.',
+  'PDF text was reviewed, but most embedded diagrams were not. Seven demo PDFs yielded almost no usable text and were excluded. Packet Tracer .pkt projects were neither decoded nor executed; CLI questions are text simulations.',
   'The Anki v1.4 sample contains 11 complete text notes. Remaining notes, image-occlusion media, the older deck, most archives, external paid material and the complete course were not reviewed.',
-  'The fixed exam samples only part of the inspected material. Syslog/SNMP details, DHCP snooping, wireless channel/security details, broader REST/configuration tools and AI notes are not tested. QoS, WAN, cloud and NTP sections were not used.',
+  'The fixed exam samples only part of the reference material. Syslog/SNMP details, DHCP snooping, wireless channel/security details, broader REST/configuration tools and AI notes are not tested. QoS, WAN, cloud and NTP sections were not used.',
   'No supplemental question coverage is included. Practice performance does not establish an official pass or guarantee exam readiness.',
 ];
 

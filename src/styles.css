@@ -984,3 +984,13 @@ body.modal-open { overflow: hidden; }
   .mode-note { font-size: 10px; }
   .save-status { font-size: 0; }
 }
+
+/* Readable review summaries, references and footer text. */
+.cli-attempt-summary, .stat-card > span { font-size: 14px; color: #364b3f; }
+.cli-attempt-summary { line-height: 1.8; }
+.site-footer, .site-footer > button, .bottom-note, .bottom-note > button,
+.source-strip > span, .source-strip > button { font-size: 14px; color: #364b3f; }
+.source-strip > button:hover { color: #255b49; }
+.reference-license { margin-top: 24px; }
+.reference-license summary { cursor: pointer; font-size: 16px; color: #364b3f; }
+.reference-license pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.7; }

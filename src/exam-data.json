@@ -472,7 +472,7 @@
       },
       "correct_answer": "B",
       "rubric": null,
-      "explanation": "A wireless LAN controller centrally manages lightweight APs. The inspected notes describe AP configuration downloads from the WLC and central control of channels and power.",
+      "explanation": "A wireless LAN controller centrally manages lightweight APs. The reference notes describe AP configuration downloads from the WLC and central control of channels and power.",
       "distractor_explanations": {
         "A": "Separate autonomous management does not provide the requested central control.",
         "C": "Sharing an SSID does not by itself provide centralized configuration or radio management.",
@@ -708,7 +708,7 @@
         "Study Notes/23 DHCP - Dynamic Host Configuration Protocol/23-02 DHCP Dynamic Host Configuration Protocol.pdf"
       ],
       "source_sections": [
-        "Page 2: DHCP client/server exchange diagram, visually inspected"
+        "Page 2: DHCP client/server exchange diagram"
       ],
       "source_links": [
         "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/23%20DHCP%20-%20Dynamic%20Host%20Configuration%20Protocol/23-02%20DHCP%20Dynamic%20Host%20Configuration%20Protocol.pdf"
