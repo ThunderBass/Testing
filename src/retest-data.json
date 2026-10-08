@@ -1,0 +1,590 @@
+[
+  {
+    "id": 101,
+    "topic": "IOS configuration mode navigation",
+    "domain": "Foundations, IOS and addressing",
+    "format": "single-answer",
+    "difficulty": "easy",
+    "prompt": "You are at the Cisco IOS prompt `R1(config-if)#`. You want to return directly to privileged EXEC mode without changing configuration values or leaving the session.\n\nWhich command does this? Select one.",
+    "options": {
+      "A": "exit",
+      "B": "end",
+      "C": "disable",
+      "D": "logout"
+    },
+    "correct_answer": "B",
+    "rubric": null,
+    "explanation": "From an interface configuration prompt, end returns directly to privileged EXEC mode, R1#. Exit goes back only one level, to global configuration mode.",
+    "distractor_explanations": {
+      "A": "Exit goes to R1(config)# from this starting prompt.",
+      "C": "Disable is a privileged EXEC command that returns to user EXEC; it does not perform the requested transition here.",
+      "D": "Logout ends an EXEC session rather than returning to privileged EXEC."
+    },
+    "sources": [
+      "Study Notes/04 The IOS Operating System/04-04 Navigating the Cisco IOS Operating System.pdf"
+    ],
+    "source_sections": [
+      "IOS Command Hierarchy"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/04%20The%20IOS%20Operating%20System/04-04%20Navigating%20the%20Cisco%20IOS%20Operating%20System.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 102,
+    "topic": "IPv6 subnet allocation capacity",
+    "domain": "Foundations, IOS and addressing",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "For a documentation lab, your organisation uses the IPv6 prefix `2001:db8:7a20::/48`. Each LAN will receive one distinct `/64` subnet.\n\nHow many /64 subnets fit in that /48 block? Select one.",
+    "options": {
+      "A": "256",
+      "B": "4,096",
+      "C": "65,536",
+      "D": "18,446,744,073,709,551,616"
+    },
+    "correct_answer": "C",
+    "rubric": null,
+    "explanation": "There are 64 − 48 = 16 bits available for subnet IDs. Therefore 2^16 = 65,536 distinct /64 subnets fit. The fourth hextet can run from 0000 through ffff. This uses a documentation prefix, not a public deployment allocation.",
+    "distractor_explanations": {
+      "A": "256 requires only eight subnet bits; this allocation has sixteen.",
+      "B": "4,096 requires twelve subnet bits.",
+      "D": "2^64 counts addresses within one /64, not /64 subnets within a /48."
+    },
+    "sources": [
+      "Study Notes/30 IPv6 Addressing and Routing/30-04 IPv6 Global Unicast Addresses.pdf"
+    ],
+    "source_sections": [
+      "IPv6 Address Types: Global Unicast Addresses — /48 allocation and /64 subnets"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/30%20IPv6%20Addressing%20and%20Routing/30-04%20IPv6%20Global%20Unicast%20Addresses.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 103,
+    "topic": "Duplex mismatch diagnosis",
+    "domain": "Foundations, IOS and addressing",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "Two Cisco IOS switches are directly connected with a known-good Fast Ethernet cable. Both interfaces are administratively enabled. Relevant output is:\n\n```text\nSW1# show interfaces FastEthernet0/24\nFastEthernet0/24 is up, line protocol is up\n  Full-duplex, 100Mb/s\n\nSW2# show interfaces FastEthernet0/24\nFastEthernet0/24 is up, line protocol is up\n  Half-duplex, 100Mb/s\n  184 late collisions\n```\n\nTransfer performance is poor. Both ports support 100 Mb/s full duplex. Which change directly corrects the mismatch shown? Select one.",
+    "options": {
+      "A": "Set SW2 Fa0/24 to full duplex, retaining 100 Mb/s on both ends.",
+      "B": "Set SW1 Fa0/24 to 10 Mb/s while leaving SW2 at 100 Mb/s.",
+      "C": "Change the IP subnet on the switches’ management interfaces.",
+      "D": "Configure a default route on SW2."
+    },
+    "correct_answer": "A",
+    "rubric": null,
+    "explanation": "The displayed speeds agree, but duplex differs. Setting SW2 to full duplex makes both ends use the same supported speed and duplex. A duplex mismatch can leave the link up while causing collisions and poor performance.",
+    "distractor_explanations": {
+      "B": "This introduces a speed mismatch and does not correct the existing duplex mismatch.",
+      "C": "Management addressing does not change physical interface duplex.",
+      "D": "A route cannot correct Ethernet duplex negotiation or collision behavior."
+    },
+    "sources": [
+      "Study Notes/14 Cisco Router and Switch Basics/14-06 Basic Layer 1 and Layer 2 Troubleshooting.pdf"
+    ],
+    "source_sections": [
+      "Speed and Duplex Mismatches; Show Interface"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/14%20Cisco%20Router%20and%20Switch%20Basics/14-06%20Basic%20Layer%201%20and%20Layer%202%20Troubleshooting.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 104,
+    "topic": "Access VLAN membership troubleshooting",
+    "domain": "Switching and wireless",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "Two PCs connect to a single Cisco IOS Layer 2 switch. There is no router, no trunk, and no filtering. Both switch ports are up.\n\n```text\nPC-A 192.168.18.10/24 --- Fa0/1  SW1  Fa0/2 --- PC-B 192.168.18.20/24\n\nSW1# show vlan brief\nVLAN  Name       Status   Ports\n18    Desktop    active   Fa0/1\n28    Printer    active   Fa0/2\n```\n\nThe design calls for both PCs to share VLAN 18. PC-A cannot resolve PC-B using ARP. Which change restores the intended direct communication? Select one.",
+    "options": {
+      "A": "Change PC-A’s default gateway to 192.168.18.20.",
+      "B": "Configure switchport access vlan 18 under Fa0/2.",
+      "C": "Create a static default route on PC-B.",
+      "D": "Set both PCs to the same IP address."
+    },
+    "correct_answer": "B",
+    "rubric": null,
+    "explanation": "The two access ports currently belong to separate broadcast domains. Assigning Fa0/2 to VLAN 18 places both hosts in the same VLAN and allows their local ARP broadcasts and subsequent frames to reach one another.",
+    "distractor_explanations": {
+      "A": "PC-B is not a router, and the hosts regard each other as local; changing a default gateway does not join their VLANs.",
+      "C": "A default route does not fix a split Layer 2 broadcast domain for destinations considered local.",
+      "D": "Duplicate addressing creates a conflict and leaves the VLAN separation in place."
+    },
+    "sources": [
+      "Study Notes/21 VLANs - Virtual Local Area Networks/21-05 VLAN Access Ports.pdf"
+    ],
+    "source_sections": [
+      "VLAN Access Ports; Misconfigured VLAN; Access Port Configuration"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/21%20VLANs%20-%20Virtual%20Local%20Area%20Networks/21-05%20VLAN%20Access%20Ports.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 105,
+    "topic": "Layer 3 switch and host gateway faults",
+    "domain": "Switching and wireless",
+    "format": "multiple-answer",
+    "difficulty": "challenging",
+    "prompt": "A Cisco IOS multilayer switch supports IP routing. Its relevant configuration and two host settings are shown below. All access ports and both SVIs are up/up; each host can ping its own VLAN’s SVI. There are no ACLs or other routers.\n\n```text\nPC-A --- SW1 [VLAN 40 and VLAN 50] --- PC-B\n\nSW1:\n no ip routing\n interface Vlan40\n  ip address 10.40.40.1 255.255.255.0\n interface Vlan50\n  ip address 10.40.50.1 255.255.255.0\n\nPC-A: 10.40.40.10/24, default gateway 10.40.40.1\nPC-B: 10.40.50.10/24, default gateway 10.40.50.254\n```\n\nThe address `10.40.50.254` is unused. Which **two** changes are required for normal bidirectional IP communication between the PCs while preserving these two /24 LANs? Select exactly two.",
+    "options": {
+      "A": "Configure ip routing on SW1.",
+      "B": "Change PC-A’s default gateway to 10.40.50.1.",
+      "C": "Change PC-B’s default gateway to 10.40.50.1.",
+      "D": "Put both access ports in VLAN 40 without changing either host address.",
+      "E": "Replace the two /24 host masks with /16 masks."
+    },
+    "correct_answer": [
+      "A",
+      "C"
+    ],
+    "rubric": null,
+    "explanation": "SW1 must route between its connected SVIs, which requires ip routing. PC-B also needs the reachable router address on its own VLAN, 10.40.50.1, as its gateway so its replies to PC-A can leave VLAN 50. PC-A already has the correct local gateway.",
+    "distractor_explanations": {
+      "B": "10.40.50.1 is not on PC-A’s /24 LAN.",
+      "D": "PC-B would retain an address in a different IP subnet and lose access to its intended VLAN 50 gateway.",
+      "E": "This violates the two-/24 requirement and makes the hosts attempt direct ARP across separate VLANs."
+    },
+    "sources": [
+      "Study Notes/22 Inter-VLAN Routing/22-04 Option 3 - Layer 3 Switch.pdf",
+      "Study Notes/23 DHCP - Dynamic Host Configuration Protocol/23-03 Cisco DHCP Server.pdf"
+    ],
+    "source_sections": [
+      "Option 3 Inter-VLAN Routing Configuration; Layer 3 Switch Considerations",
+      "DHCP — default gateway configuration"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/22%20Inter-VLAN%20Routing/22-04%20Option%203%20-%20Layer%203%20Switch.pdf",
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/23%20DHCP%20-%20Dynamic%20Host%20Configuration%20Protocol/23-03%20Cisco%20DHCP%20Server.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 106,
+    "topic": "Wireless band compatibility",
+    "domain": "Switching and wireless",
+    "format": "single-answer",
+    "difficulty": "easy",
+    "prompt": "A warehouse has handheld scanners that support only 2.4 GHz Wi-Fi. An administrator disables every 2.4 GHz radio and leaves only a 5 GHz WLAN with the same SSID and security settings. The scanners can no longer discover the WLAN.\n\nWhat is the most direct explanation? Select one.",
+    "options": {
+      "A": "The scanners need a different IPv4 subnet mask before they can discover an SSID.",
+      "B": "A matching SSID automatically makes a 2.4 GHz client support 5 GHz.",
+      "C": "The scanners cannot receive the WLAN on a frequency band their radios do not support.",
+      "D": "The DHCP server must generate radio beacons for the scanners."
+    },
+    "correct_answer": "C",
+    "rubric": null,
+    "explanation": "A client must support the frequency band used by the AP. Keeping the SSID and security settings the same does not add 5 GHz radio capability to a 2.4 GHz-only client.",
+    "distractor_explanations": {
+      "A": "SSID discovery occurs before IP addressing becomes relevant.",
+      "B": "An SSID is a network identifier, not a way to change radio hardware capability.",
+      "D": "Access points transmit beacons; DHCP assigns IP configuration after connectivity exists."
+    },
+    "sources": [
+      "Study Notes/37 Wireless Fundamentals/37-06 Wireless Channels and Radio Frequencies.pdf"
+    ],
+    "source_sections": [
+      "2.4 vs 5 GHz; IEEE 802.11 Standards"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/37%20Wireless%20Fundamentals/37-06%20Wireless%20Channels%20and%20Radio%20Frequencies.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 107,
+    "topic": "Connected and local route interpretation",
+    "domain": "Routing and packet forwarding",
+    "format": "single-answer",
+    "difficulty": "easy",
+    "prompt": "A Cisco IOS 15 router has this routing-table excerpt:\n\n```text\nC  10.61.9.0/24 is directly connected, GigabitEthernet0/1\nL  10.61.9.1/32 is directly connected, GigabitEthernet0/1\n```\n\nWhat does the `L` entry represent? Select one.",
+    "options": {
+      "A": "A network learned through a link-state routing protocol.",
+      "B": "The router’s own configured IPv4 address on Gi0/1.",
+      "C": "A /32 subnet delegated to every host on the Ethernet LAN.",
+      "D": "A static route to the next-hop router at 10.61.9.1."
+    },
+    "correct_answer": "B",
+    "rubric": null,
+    "explanation": "IOS 15 installs a local /32 route for the router’s own interface address. The connected /24 entry represents the attached network; the L entry specifically identifies the address belonging to this router.",
+    "distractor_explanations": {
+      "A": "L means local here; an OSPF route would use O, not L.",
+      "C": "The entry describes the router’s address and does not reassign host subnet masks.",
+      "D": "The address is local to this router, not a separately configured static next hop."
+    },
+    "sources": [
+      "Study Notes/16 Routing Fundamentals/16-02 Connected and Local Routes.pdf"
+    ],
+    "source_sections": [
+      "show ip route — Connected Routes; show ip route — Local Routes"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/16%20Routing%20Fundamentals/16-02%20Connected%20and%20Local%20Routes.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 108,
+    "topic": "OSPF locally significant process IDs",
+    "domain": "Routing and packet forwarding",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "Two Cisco IOS routers share an Ethernet link:\n\n```text\nR1 Gi0/0 10.80.0.1/30 -------- 10.80.0.2/30 Gi0/0 R2\n\nR1:                               R2:\n router ospf 19                    router ospf 44\n  network 10.80.0.0 0.0.0.3 area 0  network 10.80.0.0 0.0.0.3 area 0\n```\n\nTheir router IDs are unique. Both interfaces are enabled for OSPF and are not passive; all link, timer, network-type, area and authentication settings are compatible. What is true about the differing process IDs? Select one.",
+    "options": {
+      "A": "They must be identical before the routers can become OSPF neighbors.",
+      "B": "They are locally significant and do not, by themselves, prevent adjacency.",
+      "C": "They automatically place R1 in area 19 and R2 in area 44.",
+      "D": "They force R1 to prefer every route over R2 because 19 is lower than 44."
+    },
+    "correct_answer": "B",
+    "rubric": null,
+    "explanation": "An OSPF process ID identifies a local OSPF instance. Adjacent routers may use different process IDs. Area membership comes from the area configuration; the process ID is neither an area number nor a path metric.",
+    "distractor_explanations": {
+      "A": "Unlike relevant adjacency parameters, process IDs do not have to match across routers.",
+      "C": "Both interface selections explicitly specify area 0.",
+      "D": "Process IDs are not used to rank route cost or administrative distance."
+    },
+    "sources": [
+      "Study Notes/20 OSPF - Open Shortest Path First/20-03 OSPF Basic Configuration.pdf"
+    ],
+    "source_sections": [
+      "OSPF Configuration — Process ID"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/20%20OSPF%20-%20Open%20Shortest%20Path%20First/20-03%20OSPF%20Basic%20Configuration.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 109,
+    "topic": "Exact route summarization",
+    "domain": "Routing and packet forwarding",
+    "format": "multiple-answer",
+    "difficulty": "challenging",
+    "prompt": "A branch router owns exactly these eight /24 networks:\n\n```text\n10.96.40.0/24 through 10.96.43.0/24\n10.96.48.0/24 through 10.96.51.0/24\n```\n\nYou want to represent them with **two summary routes**. Both routes will use the same reachable next hop. Together they must cover every listed address and **no addresses from any other /24**.\n\nWhich two prefixes meet that requirement? Select exactly two.",
+    "options": {
+      "A": "10.96.40.0/22",
+      "B": "10.96.40.0/21",
+      "C": "10.96.48.0/21",
+      "D": "10.96.48.0/22",
+      "E": "10.96.32.0/19"
+    },
+    "correct_answer": [
+      "A",
+      "D"
+    ],
+    "rubric": null,
+    "explanation": "A /22 has mask 255.255.252.0 and covers four consecutive third-octet values aligned on a multiple of four. The two exact blocks are 40–43 and 48–51. Thus 10.96.40.0/22 and 10.96.48.0/22 cover precisely the eight required /24 networks.",
+    "distractor_explanations": {
+      "B": "This /21 also covers 10.96.44.0/24 through 10.96.47.0/24, which are excluded.",
+      "C": "This /21 also covers 10.96.52.0/24 through 10.96.55.0/24, which are excluded.",
+      "E": "This /19 covers third-octet values 32–63, including many excluded networks."
+    },
+    "sources": [
+      "Study Notes/16 Routing Fundamentals/16-06 Summarisation, Longest Prefix Match, and Default Routes.pdf",
+      "Study Notes/08 Subnetting/08-10 Subnetting on the 3rd Octet - Written Example.pdf"
+    ],
+    "source_sections": [
+      "Summary Routes",
+      "Subnetting on the 3rd Octet — Written Example"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/16%20Routing%20Fundamentals/16-06%20Summarisation%2C%20Longest%20Prefix%20Match%2C%20and%20Default%20Routes.pdf",
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/08%20Subnetting/08-10%20Subnetting%20on%20the%203rd%20Octet%20-%20Written%20Example.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 110,
+    "topic": "DHCP default gateway option troubleshooting",
+    "domain": "IP services",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "R1 is the only router on the clients’ LAN. It serves DHCP locally and has `10.73.5.1/24` on its LAN interface. No device uses `10.73.5.254`.\n\n```text\nip dhcp excluded-address 10.73.5.1 10.73.5.20\nip dhcp pool DESKTOPS\n network 10.73.5.0 255.255.255.0\n default-router 10.73.5.254\n dns-server 10.73.8.53\n```\n\nA client gets `10.73.5.25/24` and can ping `10.73.5.1`, but cannot reach remote IP addresses. R1’s onward routing and the return routes are correct. What should you correct in the DHCP pool before renewing the client’s lease? Select one.",
+    "options": {
+      "A": "Change the network mask to 255.255.0.0.",
+      "B": "Remove all excluded addresses.",
+      "C": "Change the default-router option to 10.73.5.1.",
+      "D": "Change dns-server to the client’s own address."
+    },
+    "correct_answer": "C",
+    "rubric": null,
+    "explanation": "The pool gives the client an unused gateway address. The default-router option must supply R1’s reachable LAN address, 10.73.5.1. After the corrected option reaches the client, it can send off-subnet traffic to R1.",
+    "distractor_explanations": {
+      "A": "Widening the mask does not repair the gateway and would change which destinations the client treats as local.",
+      "B": "Exclusions protect infrastructure addresses from allocation; removing them does not correct the gateway option.",
+      "D": "DNS resolves names; the stated fault affects remote IP addresses and is caused by the incorrect gateway."
+    },
+    "sources": [
+      "Study Notes/23 DHCP - Dynamic Host Configuration Protocol/23-03 Cisco DHCP Server.pdf"
+    ],
+    "source_sections": [
+      "Option 1: Cisco DHCP Server Configuration"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/23%20DHCP%20-%20Dynamic%20Host%20Configuration%20Protocol/23-03%20Cisco%20DHCP%20Server.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 111,
+    "topic": "NAT address terminology",
+    "domain": "IP services",
+    "format": "matching",
+    "difficulty": "medium",
+    "prompt": "An inside server is configured with `10.5.8.20`. Static NAT represents it to outside users as `203.0.113.20`. An outside client is configured with `198.51.100.40`, and its address is not translated.\n\nMatch each description to the NAT term. Use each letter once.\n\n1. The server’s address as configured on its operating system.\n2. The server’s translated address as seen by the outside network.\n3. The outside client’s address as represented to the inside network.\n4. The outside client’s address assigned on its own network.\n\nA. Outside global\nB. Inside local\nC. Outside local\nD. Inside global",
+    "options": null,
+    "correct_answer": {
+      "1": "B",
+      "2": "D",
+      "3": "C",
+      "4": "A"
+    },
+    "rubric": "All four mappings must be correct; accept equivalent term names. All-or-nothing grading.",
+    "explanation": "Inside local is the inside server’s actual 10.5.8.20 address; inside global is its translated 203.0.113.20 address. Outside local and outside global both have the value 198.51.100.40 here, but their definitions describe different viewpoints. One-way inside NAT commonly leaves those two outside values equal.",
+    "distractor_explanations": {},
+    "sources": [
+      "Study Notes/29 NAT - Network Address Translation/29-04 NAT Translations - Inside Local, Inside Global, Outside Local, Outside Global.pdf"
+    ],
+    "source_sections": [
+      "NAT Definitions; Outside Local vs Outside Global"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/29%20NAT%20-%20Network%20Address%20Translation/29-04%20NAT%20Translations%20-%20Inside%20Local%2C%20Inside%20Global%2C%20Outside%20Local%2C%20Outside%20Global.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 112,
+    "topic": "Dynamic NAT pool exhaustion",
+    "domain": "IP services",
+    "format": "single-answer",
+    "difficulty": "challenging",
+    "prompt": "A Cisco IOS router has working inside/outside interfaces, matching NAT ACL entries, and correct routing. No static NAT mappings or additional NAT rules exist. Its dynamic translation configuration is:\n\n```text\nip nat pool USERS 203.0.113.9 203.0.113.14 netmask 255.255.255.240\naccess-list 7 permit 10.92.0.0 0.0.0.255\nip nat inside source list 7 pool USERS\n```\n\nSix different inside hosts already hold active one-to-one translations, consuming the entire pool. A seventh host, `10.92.0.27`, now initiates its first connection to an outside server. None of the existing translations expires or is removed during the attempt.\n\nWhat happens? Select one.",
+    "options": {
+      "A": "The router automatically shares 203.0.113.9 by selecting a different TCP source port.",
+      "B": "The new host cannot obtain a translation because the pool has no free address.",
+      "C": "The router automatically translates the new host to its outside-interface address.",
+      "D": "The router immediately replaces the oldest active host’s translation."
+    },
+    "correct_answer": "B",
+    "rubric": null,
+    "explanation": "The pool includes addresses .9 through .14: 14 − 9 + 1 = 6 addresses. This rule uses dynamic NAT without overload, so each translated inside host consumes an address. All six are already occupied and remain active; the new host cannot obtain a mapping from this pool.",
+    "distractor_explanations": {
+      "A": "Port sharing is PAT and requires an overload configuration; it is not enabled by this rule.",
+      "C": "An interface-based translation rule would need to be configured explicitly.",
+      "D": "The router does not automatically evict an active one-to-one mapping just to satisfy this request."
+    },
+    "sources": [
+      "Study Notes/29 NAT - Network Address Translation/29-06 Dynamic NAT.pdf"
+    ],
+    "source_sections": [
+      "Dynamic NAT Scenario; Dynamic NAT Configuration"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/29%20NAT%20-%20Network%20Address%20Translation/29-06%20Dynamic%20NAT.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 113,
+    "topic": "ACL interface direction selection",
+    "domain": "Security fundamentals",
+    "format": "multiple-answer",
+    "difficulty": "challenging",
+    "prompt": "Traffic from PC-A to a server follows this path through a Cisco IOS router:\n\n```text\nPC-A 10.14.1.20/24 -- Gi0/0 [R1] Gi0/1 -- Server 10.14.2.80/24\n                    10.14.1.1  10.14.2.1\n```\n\nBoth hosts use R1 as their gateway. No other ACLs, NAT rules or paths exist. The administrator has created this ACL but has not applied it:\n\n```text\nip access-list extended BLOCKWEB\n deny tcp host 10.14.1.20 host 10.14.2.80 eq 80\n permit ip any any\n```\n\nWhich **two interface-and-direction choices would each independently filter PC-A’s HTTP request on its way to the server**? Select exactly two. Treat each option as an alternative placement of this same ACL.",
+    "options": {
+      "A": "Gi0/0: ip access-group BLOCKWEB in",
+      "B": "Gi0/0: ip access-group BLOCKWEB out",
+      "C": "Gi0/1: ip access-group BLOCKWEB in",
+      "D": "Gi0/1: ip access-group BLOCKWEB out",
+      "E": "Leave BLOCKWEB unapplied; defining it automatically filters routed traffic."
+    },
+    "correct_answer": [
+      "A",
+      "D"
+    ],
+    "rubric": null,
+    "explanation": "The client’s request enters R1 on Gi0/0 and exits on Gi0/1. An inbound ACL on Gi0/0 or an outbound ACL on Gi0/1 therefore sees that request and applies the deny entry. Each option is independently sufficient; applying both is not required.",
+    "distractor_explanations": {
+      "B": "Gi0/0 outbound sees traffic leaving toward PC-A, not its request entering R1.",
+      "C": "Gi0/1 inbound sees traffic entering from the server LAN, not the client’s request leaving toward it.",
+      "E": "An ACL definition alone does not apply packet filtering to these interfaces."
+    },
+    "sources": [
+      "Study Notes/28 ACLs - Access Control Lists/28-05 ACL Operations.pdf",
+      "Study Notes/28 ACLs - Access Control Lists/28-04 ACL Syntax.pdf"
+    ],
+    "source_sections": [
+      "Access Groups; Access-Group Configuration",
+      "ACL Protocol; ACL Source; Destination Address; Final Options"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/28%20ACLs%20-%20Access%20Control%20Lists/28-05%20ACL%20Operations.pdf",
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/28%20ACLs%20-%20Access%20Control%20Lists/28-04%20ACL%20Syntax.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 114,
+    "topic": "SSH local username authentication",
+    "domain": "Security fundamentals",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "A Cisco IOS router has a unique hostname, a domain name, valid RSA keys, SSH version 2 enabled, and working IP connectivity. It uses no AAA configuration and currently has **no local usernames**. Its VTY configuration is:\n\n```text\nline vty 0 4\n password LineOnly7\n login local\n transport input ssh\n```\n\nAn administrator expects the VTY line password to authenticate an SSH session. Which change supplies the authentication database selected by this configuration? Select one. Assume the administrator will connect using the new account and its password.",
+    "options": {
+      "A": "Add a local username with a secret using username <name> secret <password>.",
+      "B": "Replace transport input ssh with transport input telnet.",
+      "C": "Change the VTY line password but leave the local username database empty.",
+      "D": "Remove the router’s RSA keys."
+    },
+    "correct_answer": "A",
+    "rubric": null,
+    "explanation": "Login local tells IOS to authenticate against locally configured usernames. A username with a secret provides the required local account. The VTY line password is not the local username database and does not satisfy this configuration.",
+    "distractor_explanations": {
+      "B": "This removes the requested SSH access rather than supplying a local account.",
+      "C": "Changing a line password does not create the username required by login local.",
+      "D": "Removing the keys breaks an SSH prerequisite and does not supply credentials."
+    },
+    "sources": [
+      "Study Notes/33 Cisco Device Security/33-06 SSH Secure Shell.pdf"
+    ],
+    "source_sections": [
+      "Disable Telnet — username secret and login local; Enable SSH"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/33%20Cisco%20Device%20Security/33-06%20SSH%20Secure%20Shell.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 115,
+    "topic": "Port security limits as identity protection",
+    "domain": "Security fundamentals",
+    "format": "single-answer",
+    "difficulty": "easy",
+    "prompt": "A switch port allows only one configured source MAC address using port security. Why should this control not be treated as strong proof of the connected user’s identity? Select one.",
+    "options": {
+      "A": "A device can spoof the permitted source MAC address.",
+      "B": "Port security encrypts all traffic, making identity checks unnecessary.",
+      "C": "Every Ethernet frame carries the user’s verified password.",
+      "D": "A MAC address cannot ever be changed or imitated."
+    },
+    "correct_answer": "A",
+    "rubric": null,
+    "explanation": "Port security matches source MAC addresses, and an attacker can spoof a permitted MAC address. It can restrict the devices or number of MAC addresses seen on a port, but MAC matching alone is not strong user authentication.",
+    "distractor_explanations": {
+      "B": "Port security does not encrypt Ethernet traffic or establish a verified human identity.",
+      "C": "Ethernet frames do not inherently carry verified user passwords.",
+      "D": "The source MAC can be imitated; immutability is an unsafe assumption."
+    },
+    "sources": [
+      "Study Notes/27 Switch Security/27-05 Preventing Unauthorised Devices with Port Security.pdf"
+    ],
+    "source_sections": [
+      "Port Security — MAC spoofing and limiting source MAC addresses"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/27%20Switch%20Security/27-05%20Preventing%20Unauthorised%20Devices%20with%20Port%20Security.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 116,
+    "topic": "Network device planes",
+    "domain": "Automation",
+    "format": "matching",
+    "difficulty": "medium",
+    "prompt": "Match each operation to its network-device plane. Use each letter once.\n\n1. Forwarding a transit user packet according to an existing forwarding entry.\n2. Processing a routing-protocol update to determine a path.\n3. An administrator changing configuration through an SSH session.\n\nA. Management plane\nB. Data plane\nC. Control plane",
+    "options": null,
+    "correct_answer": {
+      "1": "B",
+      "2": "C",
+      "3": "A"
+    },
+    "rubric": "All three mappings must be correct; accept equivalent plane names. All-or-nothing grading.",
+    "explanation": "The data plane forwards transit traffic. The control plane determines forwarding behavior, including through routing-protocol processing. The management plane provides configuration and monitoring access such as SSH.",
+    "distractor_explanations": {},
+    "sources": [
+      "Study Notes/38 Network Automation and Programmability/38-10 SDN Software Defined Networking.pdf"
+    ],
+    "source_sections": [
+      "Router and Switch Planes"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/38%20Network%20Automation%20and%20Programmability/38-10%20SDN%20Software%20Defined%20Networking.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 117,
+    "topic": "Interpreting nested JSON interface data",
+    "domain": "Automation",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "An automation response contains this valid JSON. The order of entries shown is the array order.\n\n```json\n{\n  \"interfaces\": [\n    {\"name\": \"GigabitEthernet0/1\", \"addresses\": [\"10.2.1.1\"]},\n    {\"name\": \"GigabitEthernet0/2\", \"addresses\": [\"10.2.2.1\", \"10.2.3.1\"]}\n  ]\n}\n```\n\nWhich address is the **second value in the addresses array for GigabitEthernet0/2**? Select one.",
+    "options": {
+      "A": "10.2.1.1",
+      "B": "10.2.2.1",
+      "C": "10.2.3.1",
+      "D": "GigabitEthernet0/2"
+    },
+    "correct_answer": "C",
+    "rubric": null,
+    "explanation": "Locate the interface object whose name is GigabitEthernet0/2, then read its ordered addresses array. Its first value is 10.2.2.1 and its second value is 10.2.3.1.",
+    "distractor_explanations": {
+      "A": "This belongs to the first interface object, GigabitEthernet0/1.",
+      "B": "This is the first address of GigabitEthernet0/2.",
+      "D": "This is the interface name, not an address value."
+    },
+    "sources": [
+      "Study Notes/38 Network Automation and Programmability/38-04 Data Serialization Formats - XML, JSON and YAML.pdf"
+    ],
+    "source_sections": [
+      "JSON Data Types: Array; JSON Nesting"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/38%20Network%20Automation%20and%20Programmability/38-04%20Data%20Serialization%20Formats%20-%20XML%2C%20JSON%20and%20YAML.pdf"
+    ],
+    "supplemental": false
+  },
+  {
+    "id": 118,
+    "topic": "YAML indentation and structure",
+    "domain": "Automation",
+    "format": "single-answer",
+    "difficulty": "medium",
+    "prompt": "Compare these two valid YAML documents used to represent configuration data:\n\n```yaml\n# Document 1\ninterface:\n  name: GigabitEthernet0/1\n  enabled: true\n```\n\n```yaml\n# Document 2\ninterface:\n  name: GigabitEthernet0/1\nenabled: true\n```\n\nWhat changed in the data structure? Select one.",
+    "options": {
+      "A": "Nothing; indentation never affects YAML structure.",
+      "B": "In Document 2, enabled is a top-level key rather than a field within interface.",
+      "C": "Document 2 changes enabled from a Boolean value to a list.",
+      "D": "Document 2 places name at the top level rather than within interface."
+    },
+    "correct_answer": "B",
+    "rubric": null,
+    "explanation": "YAML uses indentation to represent structure. In Document 1, enabled and name are both nested under interface. In Document 2, enabled has moved to the same indentation level as interface and is a top-level key. Its value remains the Boolean true.",
+    "distractor_explanations": {
+      "A": "Indentation is significant in YAML.",
+      "C": "No list marker was introduced and true remains a Boolean.",
+      "D": "Name remains indented beneath interface in both documents."
+    },
+    "sources": [
+      "Study Notes/38 Network Automation and Programmability/38-04 Data Serialization Formats - XML, JSON and YAML.pdf"
+    ],
+    "source_sections": [
+      "YAML: YAML Aint Markup Language — indentation and key/value representation"
+    ],
+    "source_links": [
+      "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/38%20Network%20Automation%20and%20Programmability/38-04%20Data%20Serialization%20Formats%20-%20XML%2C%20JSON%20and%20YAML.pdf"
+    ],
+    "supplemental": false
+  }
+]

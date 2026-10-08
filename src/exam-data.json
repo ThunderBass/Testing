@@ -1,0 +1,1072 @@
+{
+  "repository": "PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified",
+  "commit": "6603a64e014dc7fa9fa0cb28a0ca383490e4b844",
+  "current_blueprint_verified": false,
+  "current_blueprint_limitation": "Official Cisco domains returned proxy CONNECT 403; version, weights and gap comparison not verified.",
+  "questions": [
+    {
+      "id": 1,
+      "topic": "IOS configuration persistence",
+      "domain": "Foundations, IOS and addressing",
+      "format": "single-answer",
+      "difficulty": "easy",
+      "prompt": "On a Cisco IOS router, you change an interface description and confirm that it appears in `show running-config`. You want the change to survive a normal reload.\n\nWhich command should you enter from privileged EXEC mode? Select one.",
+      "options": {
+        "A": "copy startup-config running-config",
+        "B": "copy running-config startup-config",
+        "C": "reload",
+        "D": "erase startup-config"
+      },
+      "correct_answer": "B",
+      "explanation": "The running configuration is in RAM. Copying it to the startup configuration in NVRAM saves the change for the next normal boot.",
+      "sources": [
+        "Study Notes/04 The IOS Operating System/04-05 IOS Configuration Management.pdf"
+      ],
+      "source_sections": [
+        "Configuration Storage Locations; Saving the Configuration"
+      ],
+      "distractor_explanations": {
+        "A": "Copies the saved configuration into the running configuration; it does not save the current change.",
+        "C": "Reloading alone does not guarantee a save. A save prompt, if shown, still requires a separate affirmative action.",
+        "D": "Deletes the saved startup configuration."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/04%20The%20IOS%20Operating%20System/04-05%20IOS%20Configuration%20Management.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 2,
+      "topic": "IPv4 subnet boundaries",
+      "domain": "Foundations, IOS and addressing",
+      "format": "single-answer",
+      "difficulty": "medium",
+      "prompt": "A workstation uses `192.168.46.77/27`. What are its subnet's network and broadcast addresses? Select one.",
+      "options": {
+        "A": "Network 192.168.46.0; broadcast 192.168.46.255",
+        "B": "Network 192.168.46.64; broadcast 192.168.46.127",
+        "C": "Network 192.168.46.64; broadcast 192.168.46.95",
+        "D": "Network 192.168.46.72; broadcast 192.168.46.79"
+      },
+      "correct_answer": "C",
+      "explanation": "/27 is 255.255.255.224, with blocks of 32 in the fourth octet. 77 falls in the 64–95 block: network .64, usable .65–.94, broadcast .95.",
+      "sources": [
+        "Study Notes/08 Subnetting/08-04 Subnetting Class C Networks and VLSM.pdf",
+        "Study Notes/08 Subnetting/08-11 Subnetting on the 4th Octet - Written Example.pdf"
+      ],
+      "source_sections": [
+        "Other Class C Subnet Masks; fourth-octet block-size calculation"
+      ],
+      "distractor_explanations": {
+        "A": "These are /24 boundaries.",
+        "B": "These are /26 boundaries.",
+        "D": "These are /29 boundaries."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/08%20Subnetting/08-04%20Subnetting%20Class%20C%20Networks%20and%20VLSM.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/08%20Subnetting/08-11%20Subnetting%20on%20the%204th%20Octet%20-%20Written%20Example.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 3,
+      "topic": "IPv6 abbreviation",
+      "domain": "Foundations, IOS and addressing",
+      "format": "single-answer",
+      "difficulty": "easy",
+      "prompt": "Which address represents the same IPv6 address as `2001:0db8:0042:0000:0000:0000:0000:0009`? Select one.",
+      "options": {
+        "A": "2001:db8:42::90",
+        "B": "2001:db8:42:0:9::",
+        "C": "2001:db8:42::9",
+        "D": "2001::db8::42:9"
+      },
+      "correct_answer": "C",
+      "explanation": "Leading zeros may be omitted from each hextet, and the consecutive zero hextets can be replaced by one double colon: 2001:db8:42::9.",
+      "sources": [
+        "Study Notes/30 IPv6 Addressing and Routing/30-03 The IPv6 Address Format.pdf"
+      ],
+      "source_sections": [
+        "Address Shortening"
+      ],
+      "distractor_explanations": {
+        "A": "Changes the last hextet from hexadecimal 9 to 90.",
+        "B": "Places 9 in a different hextet.",
+        "D": "Two double-colon compressions make the representation invalid."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/30%20IPv6%20Addressing%20and%20Routing/30-03%20The%20IPv6%20Address%20Format.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 4,
+      "topic": "Ethernet encapsulation for routed traffic",
+      "domain": "Foundations, IOS and addressing",
+      "format": "single-answer",
+      "difficulty": "medium",
+      "prompt": "Consider this Ethernet topology:\n```text\nPC-A --- SW1 --- R1 --- SW2 --- Server\n```\n- PC-A: `10.24.8.20/24`, MAC `0011.2233.4420`, default gateway `10.24.8.1`\n- R1 toward SW1: `10.24.8.1/24`, MAC `00aa.bbcc.0001`\n- R1 toward SW2: `10.24.9.1/24`, MAC `00aa.bbcc.0002`\n- Server: `10.24.9.50/24`, MAC `0055.6677.8850`\n\nPC-A sends an IPv4 packet to the server. Assume its ARP cache has the necessary entry and no NAT is used. In the data frame sent **from PC-A toward SW1**, which destination addresses appear? Select one.",
+      "options": {
+        "A": "IP 10.24.8.1; MAC 00aa.bbcc.0001",
+        "B": "IP 10.24.9.50; MAC 0055.6677.8850",
+        "C": "IP 10.24.9.50; MAC ffff.ffff.ffff",
+        "D": "IP 10.24.9.50; MAC 00aa.bbcc.0001"
+      },
+      "correct_answer": "D",
+      "explanation": "The IP destination remains the remote server. The Ethernet destination on PC-A’s local link is its next hop, the default gateway’s local interface.",
+      "sources": [
+        "Study Notes/12 The Life of a Packet/12-05 ARP for Routed Traffic.pdf"
+      ],
+      "source_sections": [
+        "Routed Traffic; Routing Traffic"
+      ],
+      "distractor_explanations": {
+        "A": "The gateway is the Layer 2 next hop, not the final IP destination.",
+        "B": "The remote server MAC is used on its own Ethernet link, not on PC-A’s link.",
+        "C": "The question describes the data frame after resolution, not a broadcast ARP request."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/12%20The%20Life%20of%20a%20Packet/12-05%20ARP%20for%20Routed%20Traffic.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 5,
+      "topic": "IPv6 address types and scope",
+      "domain": "Foundations, IOS and addressing",
+      "format": "matching",
+      "difficulty": "medium",
+      "prompt": "Match each IPv6 address to its type. Use each description once.\n\n1. `fe80::25`\n2. `fd42:7a91:2::25`\n3. `2001:db8:42::25` (a documentation example of this address type)\n\nA. Global unicast\nB. Link-local\nC. Unique local\n\nReply with the letter for each numbered item.",
+      "options": null,
+      "correct_answer": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      },
+      "explanation": "FE80::/10 is link-local; FD42 is within the unique-local FC00::/7 range. 2001:db8::/32 is reserved for documentation and is used here to illustrate global-unicast address structure, not an address to route on the public Internet.",
+      "sources": [
+        "Study Notes/30 IPv6 Addressing and Routing/30-07 Unique Local and Link Local Addresses.pdf",
+        "Study Notes/30 IPv6 Addressing and Routing/30-04 IPv6 Global Unicast Addresses.pdf"
+      ],
+      "source_sections": [
+        "Unique Local Addresses; Link Local Addresses; Global Unicast Addresses"
+      ],
+      "distractor_explanations": {},
+      "rubric": "All three mappings must be correct; accept equivalent names and order. This is all-or-nothing.",
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/30%20IPv6%20Addressing%20and%20Routing/30-07%20Unique%20Local%20and%20Link%20Local%20Addresses.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/30%20IPv6%20Addressing%20and%20Routing/30-04%20IPv6%20Global%20Unicast%20Addresses.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 6,
+      "topic": "IPv4 subnetting across octets",
+      "domain": "Foundations, IOS and addressing",
+      "format": "multiple-answer",
+      "difficulty": "challenging",
+      "prompt": "A workstation has `172.22.71.200/22`. Which **two** addresses are valid unicast host addresses in the same subnet? Select exactly two. Use conventional IPv4 subnet rules that reserve the network and directed-broadcast addresses.",
+      "options": {
+        "A": "172.22.68.0",
+        "B": "172.22.68.1",
+        "C": "172.22.70.255",
+        "D": "172.22.71.255",
+        "E": "172.22.72.1"
+      },
+      "correct_answer": [
+        "B",
+        "C"
+      ],
+      "explanation": "/22 is 255.255.252.0, with blocks of four in the third octet. 71 belongs to 68–71: network 172.22.68.0, broadcast 172.22.71.255, usable range 172.22.68.1–172.22.71.254. An address ending in .255 can be a host address when it is not the subnet’s broadcast.",
+      "sources": [
+        "Study Notes/08 Subnetting/08-10 Subnetting on the 3rd Octet - Written Example.pdf"
+      ],
+      "source_sections": [
+        "Subnetting on the 3rd Octet – Written Example"
+      ],
+      "distractor_explanations": {
+        "A": "The subnet network address.",
+        "D": "The subnet directed-broadcast address.",
+        "E": "Belongs to the next /22 subnet."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/08%20Subnetting/08-10%20Subnetting%20on%20the%203rd%20Octet%20-%20Written%20Example.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 7,
+      "topic": "VLSM sizing",
+      "domain": "Foundations, IOS and addressing",
+      "format": "single-answer",
+      "difficulty": "medium",
+      "prompt": "You are allocating nonoverlapping subnets within `10.84.6.0/24` for three Ethernet LANs. LAN A needs 50 usable IPv4 addresses, LAN B needs 25, and LAN C needs 12; these totals already include each LAN's router address.\n\nWhich set gives each LAN the **smallest subnet** that meets its requirement? Select one.",
+      "options": {
+        "A": "A: 10.84.6.0/27; B: 10.84.6.32/27; C: 10.84.6.64/28",
+        "B": "A: 10.84.6.0/26; B: 10.84.6.32/27; C: 10.84.6.64/28",
+        "C": "A: 10.84.6.0/26; B: 10.84.6.64/27; C: 10.84.6.96/28",
+        "D": "A: 10.84.6.0/25; B: 10.84.6.128/26; C: 10.84.6.192/27"
+      },
+      "correct_answer": "C",
+      "explanation": "A needs /26 (62 usable), B /27 (30 usable), and C /28 (14 usable). Their address blocks are .0–.63, .64–.95, and .96–.111, which do not overlap.",
+      "sources": [
+        "Study Notes/08 Subnetting/08-04 Subnetting Class C Networks and VLSM.pdf"
+      ],
+      "source_sections": [
+        "Other Class C Subnet Masks; Variable Length Subnet Masks VLSM"
+      ],
+      "distractor_explanations": {
+        "A": "A /27 supports only 30 usable addresses, insufficient for A.",
+        "B": "B overlaps A’s .0–.63 block.",
+        "D": "All LANs get unnecessarily large subnets, violating the smallest-subnet requirement."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/08%20Subnetting/08-04%20Subnetting%20Class%20C%20Networks%20and%20VLSM.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 8,
+      "topic": "Interface configuration and administrative state",
+      "domain": "Foundations, IOS and addressing",
+      "format": "CLI simulation",
+      "difficulty": "medium",
+      "prompt": "**Text-based Cisco IOS simulation; no device commands will be executed.**\n\nR1's routed interface `GigabitEthernet0/1` connects to a powered-on switch with a known-good cable. The LAN is `192.168.72.0/27`; R1 must use the lowest usable address.\n\nCurrent output:\n```text\nR1# show ip interface brief\nInterface              IP-Address  OK? Method Status                Protocol\nGigabitEthernet0/1      unassigned  YES unset  administratively down down\n```\n\nStarting at `R1#`, enter commands to configure the required IPv4 address and mask and administratively enable this interface. Saving the configuration is not required.",
+      "options": null,
+      "correct_answer": [
+        "configure terminal",
+        "interface GigabitEthernet0/1",
+        "ip address 192.168.72.1 255.255.255.224",
+        "no shutdown"
+      ],
+      "explanation": "The /27 block begins at .0; .1 is the lowest host address and the mask is 255.255.255.224. The administratively down state requires no shutdown in interface configuration mode.",
+      "sources": [
+        "Study Notes/04 The IOS Operating System/04-04 Navigating the Cisco IOS Operating System.pdf",
+        "Study Notes/14 Cisco Router and Switch Basics/14-06 Basic Layer 1 and Layer 2 Troubleshooting.pdf",
+        "Study Notes/16 Routing Fundamentals/16-02 Connected and Local Routes.pdf",
+        "Study Notes/08 Subnetting/08-04 Subnetting Class C Networks and VLSM.pdf"
+      ],
+      "source_sections": [
+        "IOS Command Hierarchy; Layer 1 Troubleshooting Commands; Connected and Local Routes; /27 subnet mask"
+      ],
+      "distractor_explanations": {},
+      "rubric": "Award one point if commands valid from privileged EXEC enter configuration/interface context, set 192.168.72.1/27 on Gi0/1, and remove shutdown. Accept unambiguous IOS abbreviations and reordered no shutdown/ip address; ignore harmless end/exit/save commands. Do not require copy running startup. Interface is routed; switchport commands unnecessary.",
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/04%20The%20IOS%20Operating%20System/04-04%20Navigating%20the%20Cisco%20IOS%20Operating%20System.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/14%20Cisco%20Router%20and%20Switch%20Basics/14-06%20Basic%20Layer%201%20and%20Layer%202%20Troubleshooting.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/16%20Routing%20Fundamentals/16-02%20Connected%20and%20Local%20Routes.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/08%20Subnetting/08-04%20Subnetting%20Class%20C%20Networks%20and%20VLSM.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 9,
+      "topic": "VLAN trunk allowed-list troubleshooting",
+      "domain": "Switching and wireless",
+      "format": "single-answer multiple choice",
+      "difficulty": "medium",
+      "prompt": "Two Cisco IOS switches connect through an operational 802.1Q trunk. Two PCs should communicate directly within VLAN 20:\n\n```text\nPC-A -- SW1 Fa0/1 [VLAN 20] -- SW1 Gi0/1 === SW2 Gi0/1 -- SW2 Fa0/1 [VLAN 20] -- PC-B\nPC-A: 192.0.2.10/24                                            PC-B: 192.0.2.20/24\n```\n\nBoth access ports are up and correctly assigned to VLAN 20. VLANs 10, 20, and 30 exist and are active on both switches. Spanning Tree permits forwarding for these VLANs, and neither switch has an ACL or port-security restriction. The relevant output is:\n\n```text\nSW1# show interfaces trunk\nPort   Mode  Encapsulation  Status    Native vlan\nGi0/1  on    802.1q         trunking  1\nPort   Vlans allowed on trunk\nGi0/1  10,30\n\nSW2# show interfaces trunk\nPort   Mode  Encapsulation  Status    Native vlan\nGi0/1  on    802.1q         trunking  1\nPort   Vlans allowed on trunk\nGi0/1  10,20,30\n```\n\nWhich command, entered under `interface Gi0/1` on SW1, corrects this fault while preserving trunk carriage of VLANs 10 and 30? Select one.",
+      "options": {
+        "A": "switchport access vlan 20",
+        "B": "switchport trunk native vlan 20",
+        "C": "switchport trunk allowed vlan 10,20,30",
+        "D": "switchport trunk allowed vlan 20"
+      },
+      "correct_answer": "C",
+      "rubric": null,
+      "explanation": "SW1 excludes VLAN 20 from its trunk allowed list. Replacing that list with 10,20,30 permits VLAN 20 while retaining VLANs 10 and 30. Both PCs are in the same IP subnet and VLAN, so this communication does not require routing.",
+      "distractor_explanations": {
+        "A": "The access VLAN setting does not add a VLAN to an operational trunk's allowed list.",
+        "B": "Changing the native VLAN does not add VLAN 20 to the allowed list and would also introduce a native-VLAN mismatch.",
+        "D": "This replaces the allowed list with VLAN 20 alone, removing VLANs 10 and 30 and violating the requirement."
+      },
+      "sources": [
+        "Study Notes/21 VLANs - Virtual Local Area Networks/21-05 VLAN Access Ports.pdf",
+        "Study Notes/21 VLANs - Virtual Local Area Networks/21-07 VLAN Trunk Ports.pdf"
+      ],
+      "source_sections": [
+        "Access Port Configuration; Verification – show vlan brief",
+        "Dot1Q Trunks; Limiting Allowed VLANs; Allowed VLAN Configuration"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/21%20VLANs%20-%20Virtual%20Local%20Area%20Networks/21-05%20VLAN%20Access%20Ports.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/21%20VLANs%20-%20Virtual%20Local%20Area%20Networks/21-07%20VLAN%20Trunk%20Ports.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 10,
+      "topic": "Router-on-a-stick configuration",
+      "domain": "Switching and wireless",
+      "format": "short CLI simulation",
+      "difficulty": "medium",
+      "prompt": "This is a text-based Cisco IOS configuration simulation; no device commands will be executed.\n\n```text\nPC-40 -- access VLAN 40 -- SW1 Gi0/1 === R1 GigabitEthernet0/0\nPC-50 -- access VLAN 50 -- SW1\n```\n\nR1 is a Cisco IOS router supporting 802.1Q subinterfaces. Its `GigabitEthernet0/0` is already up/up, has no IP address, and has no subinterfaces. SW1's link to R1 is already an operational trunk allowing VLANs 40 and 50; both VLANs use tagged frames. All access ports and PC settings are correct:\n\n| Host | Address | Default gateway |\n|---|---|---|\n| PC-40 | 10.40.0.10/24 | 10.40.0.1 |\n| PC-50 | 10.50.0.10/24 | 10.50.0.1 |\n\nStarting at `R1(config)#`, enter the commands to configure one subinterface for each VLAN so R1 provides both default gateways and routes between these networks. Use any valid subinterface numbers. No default route or configuration-save command is required.",
+      "options": null,
+      "correct_answer": "interface GigabitEthernet0/0.40\n encapsulation dot1q 40\n ip address 10.40.0.1 255.255.255.0\n exit\ninterface GigabitEthernet0/0.50\n encapsulation dot1q 50\n ip address 10.50.0.1 255.255.255.0",
+      "rubric": {
+        "required_outcomes": [
+          "A subinterface of GigabitEthernet0/0 uses tagged 802.1Q VLAN 40 encapsulation and address 10.40.0.1/24.",
+          "A different subinterface of GigabitEthernet0/0 uses tagged 802.1Q VLAN 50 encapsulation and address 10.50.0.1/24.",
+          "The submitted configuration leaves both required subinterfaces enabled and does not remove or contradict either required gateway configuration."
+        ],
+        "equivalences": [
+          "Accept valid IOS abbreviations, optional prompt text, indentation, optional exits/end, and any valid distinct subinterface numbers.",
+          "Accept optional no shutdown on the physical interface or subinterfaces, and other harmless commands.",
+          "Do not require configuring the physical interface or switch, which are already correct.",
+          "Do not require routing-protocol or default-route commands; the two directly connected networks are sufficient."
+        ],
+        "reject_conditions": [
+          "Wrong parent interface, VLAN ID, IP address, or mask.",
+          "Using native encapsulation for either VLAN; both VLANs are explicitly tagged.",
+          "Providing only one required gateway or leaving a required subinterface shut down."
+        ],
+        "points": "Award 1 only when every required outcome is met; otherwise 0."
+      },
+      "explanation": "Each router subinterface receives one tagged VLAN through the same physical link. The encapsulation command identifies its VLAN; the IP address provides that VLAN's default gateway. IOS routes between the resulting directly connected networks when the interfaces are operational.",
+      "distractor_explanations": null,
+      "sources": [
+        "Study Notes/22 Inter-VLAN Routing/22-03 Option 2 - Router on a Stick.pdf",
+        "Lab Guide - External/22 VLAN and Inter-VLAN Routing Configuration Lab Exercises/22-1 VLAN and Inter-VLAN Routing Configuration Lab Exercise.pdf"
+      ],
+      "source_sections": [
+        "Option 2 Configuration; Router on a Stick Considerations",
+        "Inter-VLAN Routing – Option 2, steps 19–22"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/22%20Inter-VLAN%20Routing/22-03%20Option%202%20-%20Router%20on%20a%20Stick.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Lab%20Guide%20-%20External/22%20VLAN%20and%20Inter-VLAN%20Routing%20Configuration%20Lab%20Exercises/22-1%20VLAN%20and%20Inter-VLAN%20Routing%20Configuration%20Lab%20Exercise.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 11,
+      "topic": "Spanning Tree root and root-port selection",
+      "domain": "Switching and wireless",
+      "format": "single-answer topology interpretation",
+      "difficulty": "challenging",
+      "prompt": "Four Cisco switches run one stable PVST+ instance for VLAN 20. The table shows their configured base priorities and MAC addresses. Each bridge ID also contains the same VLAN 20 system-ID extension.\n\n| Switch | Base priority | MAC address |\n|---|---:|---|\n| SW1 | 24576 | 00ff.0000.0001 |\n| SW2 | 32768 | 0022.0000.0002 |\n| SW3 | 32768 | 0011.0000.0003 |\n| SW4 | 28672 | 0001.0000.0004 |\n\nThe only links are shown below. Every port has an explicitly configured STP cost of 4. Port priorities are all equal, and no protection feature changes normal STP selection.\n\n```text\n             SW1\n            /   \\\n          SW2   SW3\n            \\   /\n             SW4\n\nSW4 Gi0/1 connects to SW2.\nSW4 Gi0/2 connects to SW3.\n```\n\nAfter convergence, which combination identifies the root bridge and SW4's root port? Select one.",
+      "options": {
+        "A": "Root bridge: SW1; SW4 root port: Gi0/1",
+        "B": "Root bridge: SW1; SW4 root port: Gi0/2",
+        "C": "Root bridge: SW4; SW4 root port: Gi0/1",
+        "D": "Root bridge: SW3; SW4 root port: Gi0/2"
+      },
+      "correct_answer": "B",
+      "rubric": null,
+      "explanation": "SW1 has the lowest bridge priority, so it is root despite its higher MAC address. SW4 has an equal root-path cost of 4 + 4 = 8 through SW2 and SW3. The next relevant tiebreaker is the upstream sender's bridge ID. SW2 and SW3 have equal priorities, but SW3's MAC address is lower; SW4 therefore selects Gi0/2 toward SW3.",
+      "distractor_explanations": {
+        "A": "The root is correct, but the equal-cost comparison prefers SW3's lower bridge ID. SW4's lower local port number is not the deciding factor.",
+        "C": "SW4's lower MAC does not overcome SW1's lower priority. A root bridge also does not select a root port for its own instance.",
+        "D": "SW3's priority is higher than SW1's; its lower MAC matters only after equal priority."
+      },
+      "sources": [
+        "Study Notes/25 STP - Spanning Tree Protocol/25-05 How Spanning Tree Works.pdf"
+      ],
+      "source_sections": [
+        "The Bridge ID; The Root Bridge; Spanning Tree Path Cost; Root Ports; Load Balancing"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/25%20STP%20-%20Spanning%20Tree%20Protocol/25-05%20How%20Spanning%20Tree%20Works.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 12,
+      "topic": "BPDU Guard incident recovery",
+      "domain": "Switching and wireless",
+      "format": "single-answer troubleshooting",
+      "difficulty": "medium",
+      "prompt": "A Cisco IOS switch uses this configuration on a port intended for one desktop:\n\n```text\ninterface FastEthernet0/10\n switchport mode access\n switchport access vlan 30\n spanning-tree portfast\n spanning-tree bpduguard enable\n```\n\nSomeone connects an unmanaged Ethernet switch that sends BPDUs. The Cisco switch reports:\n\n```text\n%PM-4-ERR_DISABLE: bpduguard error detected on Fa0/10, putting Fa0/10 in err-disable state\n\nSW1# show interfaces status\nPort    Status        Vlan\nFa0/10  err-disabled  30\n```\n\nAutomatic errdisable recovery is disabled. The required policy is to retain PortFast and BPDU Guard on this desktop port. Which action restores the intended service and preserves that policy? Select one.",
+      "options": {
+        "A": "Leave the added switch connected and enable automatic recovery every 30 seconds.",
+        "B": "Remove the added switch, reconnect the intended desktop, then issue shutdown followed by no shutdown on Fa0/10.",
+        "C": "Leave the added switch connected and remove spanning-tree bpduguard enable.",
+        "D": "Issue spanning-tree portfast again and wait; the port will automatically recover."
+      },
+      "correct_answer": "B",
+      "rubric": null,
+      "explanation": "BPDU Guard error-disabled the port after a BPDU arrived. Remove the cause first, then administratively shut and reenable the interface to recover it. The existing PortFast and BPDU Guard commands remain in place, preserving the intended desktop-port policy.",
+      "distractor_explanations": {
+        "A": "This leaves the cause present and can repeatedly restore and disable the port; it does not restore the intended desktop-only service.",
+        "C": "This removes the required protection and leaves the unapproved device connected.",
+        "D": "Reapplying PortFast does not clear an errdisabled state. Automatic recovery is explicitly disabled."
+      },
+      "sources": [
+        "Study Notes/25 STP - Spanning Tree Protocol/25-11 Portfast, BPDU Guard and Root Guard.pdf"
+      ],
+      "source_sections": [
+        "Spanning Tree BPDU Guard; Spanning Tree BPDU Guard Configuration; Bringing Errdisabled Ports Back Online"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/25%20STP%20-%20Spanning%20Tree%20Protocol/25-11%20Portfast%2C%20BPDU%20Guard%20and%20Root%20Guard.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 13,
+      "topic": "LACP negotiation modes",
+      "domain": "Switching and wireless",
+      "format": "multiple-answer select exactly two",
+      "difficulty": "medium",
+      "prompt": "Two Cisco IOS switches support both LACP and PAgP. Their physical links are operational, and all member-port speed, duplex, trunk, native-VLAN, and allowed-VLAN settings are compatible. Neither switch has an existing port channel.\n\nWhich **two** pairs of `channel-group 1 mode` settings will negotiate an **LACP** EtherChannel? Select exactly two options.",
+      "options": {
+        "A": "SW1: active; SW2: active",
+        "B": "SW1: active; SW2: passive",
+        "C": "SW1: passive; SW2: passive",
+        "D": "SW1: desirable; SW2: auto",
+        "E": "SW1: on; SW2: on"
+      },
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "rubric": null,
+      "explanation": "LACP active mode initiates negotiation; passive mode responds. With otherwise compatible links, active/active and active/passive can form an LACP EtherChannel. Passive/passive has no initiating peer.",
+      "distractor_explanations": {
+        "C": "Both peers wait for the other to initiate, so they do not negotiate a channel.",
+        "D": "Desirable and auto are PAgP modes, so this forms a PAgP channel rather than an LACP channel.",
+        "E": "On/on creates a static EtherChannel without LACP negotiation."
+      },
+      "sources": [
+        "Study Notes/26 EtherChannel/26-04 EtherChannel Protocols and Configuration.pdf"
+      ],
+      "source_sections": [
+        "EtherChannel Protocols – LACP; LACP Configuration; PAgP Configuration; Static Configuration"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/26%20EtherChannel/26-04%20EtherChannel%20Protocols%20and%20Configuration.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 14,
+      "topic": "Wireless controller architecture",
+      "domain": "Switching and wireless",
+      "format": "single-answer multiple choice",
+      "difficulty": "easy",
+      "prompt": "A company is deploying 40 wireless access points. It wants one central system to distribute WLAN settings and manage AP channels and transmit power. Which design directly provides these functions? Select one.",
+      "options": {
+        "A": "Autonomous APs, each configured and managed separately.",
+        "B": "Lightweight APs managed by a wireless LAN controller.",
+        "C": "Autonomous APs that all advertise the same SSID, without a controller.",
+        "D": "Lightweight APs that have no controller and cannot discover one."
+      },
+      "correct_answer": "B",
+      "rubric": null,
+      "explanation": "A wireless LAN controller centrally manages lightweight APs. The inspected notes describe AP configuration downloads from the WLC and central control of channels and power.",
+      "distractor_explanations": {
+        "A": "Separate autonomous management does not provide the requested central control.",
+        "C": "Sharing an SSID does not by itself provide centralized configuration or radio management.",
+        "D": "Lightweight APs need their controller relationship for the central management described in the question."
+      },
+      "sources": [
+        "Study Notes/37 Wireless Fundamentals/37-04 Wireless LAN Controllers and CAPWAP.pdf"
+      ],
+      "source_sections": [
+        "WLC Wireless LAN Controllers; Autonomous vs Lightweight Access Points; Wireless Access Points"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/37%20Wireless%20Fundamentals/37-04%20Wireless%20LAN%20Controllers%20and%20CAPWAP.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 15,
+      "topic": "Longest-prefix forwarding",
+      "domain": "Routing and packet forwarding",
+      "format": "single-answer",
+      "difficulty": "medium",
+      "prompt": "R1 has these installed routes. All listed next hops are reachable; there is no policy-based routing.\n```text\nS* 0.0.0.0/0          [1/0]   via 192.0.2.2\nO  10.80.0.0/16       [110/20] via 192.0.2.6\nS  10.80.12.0/24      [1/0]   via 192.0.2.10\nO  10.80.12.128/25    [110/40] via 192.0.2.14\n```\nWhich next hop will R1 use for a packet destined for `10.80.12.190`? Select one.",
+      "options": {
+        "A": "192.0.2.10",
+        "B": "192.0.2.14",
+        "C": "192.0.2.6",
+        "D": "192.0.2.2"
+      },
+      "correct_answer": "B",
+      "explanation": "190 is in the .128–.255 /25 range. The /25 is the most specific installed match. The lower AD of the less-specific static routes does not override longest-prefix matching.",
+      "sources": [
+        "Study Notes/16 Routing Fundamentals/16-06 Summarisation, Longest Prefix Match, and Default Routes.pdf",
+        "Study Notes/17 Dynamic Routing Protocols/17-15 Route Precedence.pdf"
+      ],
+      "source_sections": [
+        "Longest Prefix Match; Route Precedence"
+      ],
+      "distractor_explanations": {
+        "A": "The /24 matches but is less specific than the /25.",
+        "C": "The /16 is less specific than both /24 and /25.",
+        "D": "The default is used only when no more-specific route matches."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/16%20Routing%20Fundamentals/16-06%20Summarisation%2C%20Longest%20Prefix%20Match%2C%20and%20Default%20Routes.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/17%20Dynamic%20Routing%20Protocols/17-15%20Route%20Precedence.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 16,
+      "topic": "Administrative distance and metric",
+      "domain": "Routing and packet forwarding",
+      "format": "single-answer",
+      "difficulty": "medium",
+      "prompt": "R1 learns the following candidate routes to the **same prefix**, `10.66.20.0/24`. Both OSPF candidates are intra-area routes from the same OSPF process. Each next hop is reachable and usable; no administrative distances have been changed.\n```text\nOSPF via 192.0.2.2: administrative distance 110, cost 30\nOSPF via 192.0.2.6: administrative distance 110, cost 50\nRIP  via 192.0.2.10: administrative distance 120, hop count 1\n```\nWhich candidate is selected for installation? Select one.",
+      "options": {
+        "A": "OSPF via 192.0.2.2",
+        "B": "OSPF via 192.0.2.6",
+        "C": "RIP via 192.0.2.10",
+        "D": "All three, because the destination prefixes are identical"
+      },
+      "correct_answer": "A",
+      "explanation": "OSPF wins over RIP for the same prefix because 110 is lower than 120. Between the OSPF paths, cost 30 wins over 50. OSPF cost and RIP hop count are not directly comparable.",
+      "sources": [
+        "Study Notes/17 Dynamic Routing Protocols/17-10 Administrative Distance.pdf"
+      ],
+      "source_sections": [
+        "Administrative Distance and Metric; Default Administrative Distance"
+      ],
+      "distractor_explanations": {
+        "B": "Has higher OSPF cost than the other OSPF candidate.",
+        "C": "A hop count of 1 does not beat the lower-AD OSPF source.",
+        "D": "The candidates are not equal-cost paths from the selected routing source."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/17%20Dynamic%20Routing%20Protocols/17-10%20Administrative%20Distance.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 17,
+      "topic": "Floating static route configuration",
+      "domain": "Routing and packet forwarding",
+      "format": "CLI simulation",
+      "difficulty": "challenging",
+      "prompt": "**Text-based Cisco IOS simulation; no device commands will be executed.**\n\nR1 currently reaches `10.90.40.0/24` through OSPF with the default administrative distance. A backup link is:\n```text\nR1 Gi0/2 192.0.2.1/30 ---- Gi0/0 192.0.2.2/30 R2 ---- 10.90.40.0/24\n```\nThe link is up, R2 has onward and return routes, and no other candidate routes exist. R1 already has a connected route to `192.0.2.0/30`.\n\nStarting at `R1(config)#`, enter **one static-route command** that uses R2 only after the OSPF route to `10.90.40.0/24` is withdrawn. Set the static route's administrative distance to **130**, and specify R2's next-hop IP address.",
+      "options": null,
+      "correct_answer": "ip route 10.90.40.0 255.255.255.0 192.0.2.2 130",
+      "explanation": "OSPF’s default AD is 110. A static route with AD 130 is less preferred and becomes eligible when the OSPF route is withdrawn. The next hop is R2’s 192.0.2.2, not R1’s own .1.",
+      "sources": [
+        "Study Notes/17 Dynamic Routing Protocols/17-10 Administrative Distance.pdf",
+        "Study Notes/16 Routing Fundamentals/16-04 Static Routes.pdf"
+      ],
+      "source_sections": [
+        "Floating Static Routes – OSPF; Static Routes"
+      ],
+      "distractor_explanations": {},
+      "rubric": "Must configure prefix 10.90.40.0/24 via 192.0.2.2 with AD130. Accept fully specified route including GigabitEthernet0/2 and next-hop IP, and unambiguous abbreviations. A default route, wrong mask, AD<=110, interface-only route, or AD other than130 does not meet stated outcomes.",
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/17%20Dynamic%20Routing%20Protocols/17-10%20Administrative%20Distance.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/16%20Routing%20Fundamentals/16-04%20Static%20Routes.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 18,
+      "topic": "OSPF adjacency troubleshooting",
+      "domain": "Routing and packet forwarding",
+      "format": "single-answer",
+      "difficulty": "challenging",
+      "prompt": "Two Cisco IOS routers share this Ethernet link:\n```text\nR1 Gi0/0 10.73.0.1/30 ---- Gi0/0 10.73.0.2/30 R2\n```\nBoth interfaces are up/up. They use OSPFv2 broadcast network type, MTU 1500, area 0, no authentication, unique router IDs, and no passive-interface setting or packet filtering. Relevant output is summarized below:\n```text\n                         R1                      R2\nOSPF process ID          10                      20\nRouter ID                1.1.1.1                 2.2.2.2\nHello interval           10 seconds              10 seconds\nDead interval            40 seconds              60 seconds\nOSPF neighbor table      empty                   empty\n```\nWhich single change addresses the demonstrated adjacency problem? Select one.",
+      "options": {
+        "A": "Change R2’s process ID to 10",
+        "B": "Set R2’s router ID to 1.1.1.1",
+        "C": "Change R2’s dead interval to 40 seconds on Gi0/0.",
+        "D": "Set both routers’ OSPF interface priorities to the same value"
+      },
+      "correct_answer": "C",
+      "explanation": "OSPF neighbors must agree on hello and dead intervals. Here dead intervals differ; setting R2 to 40 matches R1. The process IDs are locally significant and may differ.",
+      "sources": [
+        "Study Notes/20 OSPF - Open Shortest Path First/20-12 OSPF Adjacencies.pdf",
+        "Study Notes/20 OSPF - Open Shortest Path First/20-03 OSPF Basic Configuration.pdf"
+      ],
+      "source_sections": [
+        "Hello Packet Contents; settings required for adjacency; Process ID"
+      ],
+      "distractor_explanations": {
+        "A": "Process IDs need not match across routers.",
+        "B": "Router IDs must remain unique; duplicating one would introduce a separate problem.",
+        "D": "Priority equality is not an adjacency requirement and does not fix the timer mismatch."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/20%20OSPF%20-%20Open%20Shortest%20Path%20First/20-12%20OSPF%20Adjacencies.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/20%20OSPF%20-%20Open%20Shortest%20Path%20First/20-03%20OSPF%20Basic%20Configuration.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 19,
+      "topic": "Default routes and forwarding matches",
+      "domain": "Routing and packet forwarding",
+      "format": "matching",
+      "difficulty": "medium",
+      "prompt": "R1 has the following installed routes, with reachable next hops and no policy-based routing:\n```text\nS  10.32.0.0/16  [1/0] via 192.0.2.2\nS  10.32.8.0/24  [1/0] via 192.0.2.6\nS* 0.0.0.0/0    [1/0] via 192.0.2.10\n```\nMatch each destination to the next hop R1 uses. Use each next hop once.\n\n1. `10.32.8.44`\n2. `10.32.9.44`\n3. `203.0.113.44`\n\nA. `192.0.2.2`\nB. `192.0.2.6`\nC. `192.0.2.10`\n\nReply with the letter for each numbered item.",
+      "options": null,
+      "correct_answer": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      },
+      "explanation": "10.32.8.44 matches the /24 and /16, so the /24 wins. 10.32.9.44 matches only the /16 and default, so /16 wins. 203.0.113.44 matches only the default route.",
+      "sources": [
+        "Study Notes/16 Routing Fundamentals/16-06 Summarisation, Longest Prefix Match, and Default Routes.pdf"
+      ],
+      "source_sections": [
+        "Longest Prefix Match; Default Route (Gateway of Last Resort)"
+      ],
+      "distractor_explanations": {},
+      "rubric": "All three mappings correct; accept next-hop IP addresses instead of letters.",
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/16%20Routing%20Fundamentals/16-06%20Summarisation%2C%20Longest%20Prefix%20Match%2C%20and%20Default%20Routes.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 20,
+      "topic": "OSPF wildcard interface selection",
+      "domain": "Routing and packet forwarding",
+      "format": "multiple-answer",
+      "difficulty": "medium",
+      "prompt": "A Cisco IOS router has these up/up interfaces:\n```text\nGigabitEthernet0/0   10.44.8.1/24\nGigabitEthernet0/1   10.44.9.1/24\nGigabitEthernet0/2   10.44.10.1/24\n```\nIt has no other OSPF configuration. You enter:\n```text\nrouter ospf 7\n network 10.44.8.0 0.0.1.255 area 0\n```\nOn which **two** interfaces does this command enable OSPF? Select exactly two.",
+      "options": {
+        "A": "GigabitEthernet0/0",
+        "B": "GigabitEthernet0/1",
+        "C": "GigabitEthernet0/2",
+        "D": "None; a network command must use a subnet mask rather than a wildcard mask"
+      },
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Wildcard 0.0.1.255 permits the last bit of the third octet and all fourth-octet bits to vary, matching 10.44.8.0–10.44.9.255. Only Gi0/0 and Gi0/1 match. OSPF advertises their actual interface subnets, not an automatic /23 summary.",
+      "sources": [
+        "Study Notes/20 OSPF - Open Shortest Path First/20-03 OSPF Basic Configuration.pdf"
+      ],
+      "source_sections": [
+        "OSPF Configuration - network"
+      ],
+      "distractor_explanations": {
+        "C": "The third octet 10 falls outside the wildcard range 8–9.",
+        "D": "IOS OSPF network statements explicitly use wildcard masks."
+      },
+      "rubric": null,
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/20%20OSPF%20-%20Open%20Shortest%20Path%20First/20-03%20OSPF%20Basic%20Configuration.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 21,
+      "topic": "DHCP message sequence",
+      "domain": "IP services",
+      "format": "ordering",
+      "difficulty": "easy",
+      "prompt": "A new IPv4 client has no valid lease and successfully obtains one from a DHCP server. Assume the ordinary four-message initial allocation exchange, with one server and no retransmissions. Put the following messages in transmission order, earliest first. Reply with the four letters in order.",
+      "options": {
+        "A": "DHCPOFFER",
+        "B": "DHCPACK",
+        "C": "DHCPREQUEST",
+        "D": "DHCPDISCOVER"
+      },
+      "correct_answer": [
+        "D",
+        "A",
+        "C",
+        "B"
+      ],
+      "rubric": null,
+      "explanation": "The client first sends DHCPDISCOVER. The server proposes an address with DHCPOFFER. The client selects the offer with DHCPREQUEST, and the server confirms the allocation with DHCPACK. This question concerns initial allocation; lease renewal does not necessarily repeat all four messages.",
+      "distractor_explanations": {},
+      "sources": [
+        "Study Notes/23 DHCP - Dynamic Host Configuration Protocol/23-02 DHCP Dynamic Host Configuration Protocol.pdf"
+      ],
+      "source_sections": [
+        "Page 2: DHCP client/server exchange diagram, visually inspected"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/23%20DHCP%20-%20Dynamic%20Host%20Configuration%20Protocol/23-02%20DHCP%20Dynamic%20Host%20Configuration%20Protocol.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 22,
+      "topic": "DHCP relay troubleshooting",
+      "domain": "IP services",
+      "format": "single-answer multiple choice",
+      "difficulty": "medium",
+      "prompt": "Assume classic Cisco IOS IPv4 routing. The following links are up, and R1 can reach the DHCP server.\n\n```text\nClients, VLAN 30            R1                         DHCP server\n10.30.0.0/24 -- Gi0/0 10.30.0.1/24\n                         Gi0/1 10.40.0.1/24 -- 10.40.0.20/24\n```\n\nThe server has an active scope for 10.30.0.0/24 with the correct gateway. A client using a temporary static address can ping the server. ACLs and DHCP snooping are absent. R1 is not a DHCP server. The clients send DHCPDISCOVER broadcasts but receive no offers. R1 has no helper addresses configured.\n\nWhich change enables R1 to relay these clients' requests to the server? Select one.",
+      "options": {
+        "A": "Under R1 Gi0/1, configure ip helper-address 10.40.0.20.",
+        "B": "Under R1 Gi0/0, configure ip helper-address 10.40.0.20.",
+        "C": "Under R1 Gi0/0, configure ip address dhcp.",
+        "D": "Under R1 Gi0/1, configure ip helper-address 10.30.0.1."
+      },
+      "correct_answer": "B",
+      "rubric": null,
+      "explanation": "The router does not normally forward the clients' local broadcasts between subnets. Configure ip helper-address 10.40.0.20 on Gi0/0, the interface receiving the client broadcasts. The helper targets the DHCP server, which already has the correct scope and IP reachability.",
+      "distractor_explanations": {
+        "A": "Gi0/1 faces the server, so this would not relay client broadcasts arriving on Gi0/0.",
+        "C": "ip address dhcp makes the router interface a DHCP client; it does not relay LAN clients' requests and would replace the intended static addressing behavior.",
+        "D": "This uses the wrong receiving interface and targets the client gateway rather than the DHCP server."
+      },
+      "sources": [
+        "Study Notes/23 DHCP - Dynamic Host Configuration Protocol/23-04 External DHCP Server.pdf",
+        "Lab Guide - External/23 DHCP Configuration Lab Exercises/23-1 DHCP Configuration Answer Key.pdf"
+      ],
+      "source_sections": [
+        "Option 2: External DHCP Server Configuration",
+        "External DHCP Server, tasks 12–14"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/23%20DHCP%20-%20Dynamic%20Host%20Configuration%20Protocol/23-04%20External%20DHCP%20Server.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Lab%20Guide%20-%20External/23%20DHCP%20Configuration%20Lab%20Exercises/23-1%20DHCP%20Configuration%20Answer%20Key.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 23,
+      "topic": "PAT return packet translation",
+      "domain": "IP services",
+      "format": "single-answer multiple choice; show-command analysis",
+      "difficulty": "medium",
+      "prompt": "A Cisco IOS edge router uses inside-source PAT. Its active TCP translations include:\n\n```text\nR1# show ip nat translations\nPro Inside global          Inside local          Outside local       Outside global\ntcp 198.51.100.14:40001     10.24.6.11:51000       203.0.113.80:443     203.0.113.80:443\ntcp 198.51.100.14:40002     10.24.6.12:51000       203.0.113.80:443     203.0.113.80:443\n```\n\nA return TCP packet arrives from 203.0.113.80, source port 443, addressed to 198.51.100.14, destination port 40002. Assume the displayed translations are still active and routing and ACLs permit delivery. After NAT, what are the packet's destination IP address and destination TCP port? Select one.",
+      "options": {
+        "A": "10.24.6.11, port 51000",
+        "B": "10.24.6.12, port 40002",
+        "C": "198.51.100.14, port 51000",
+        "D": "10.24.6.12, port 51000"
+      },
+      "correct_answer": "D",
+      "rubric": null,
+      "explanation": "The return packet matches the second translation's TCP outside endpoint and inside-global address/port. R1 restores the destination to the corresponding inside-local tuple, 10.24.6.12:51000. PAT distinguishes the two hosts using different translated port numbers even though they used the same original source port.",
+      "distractor_explanations": {
+        "A": "10.24.6.11 belongs to global port 40001, not 40002.",
+        "B": "40002 is the translated global port; the active entry restores the inside-local port 51000.",
+        "C": "198.51.100.14 is the shared global address, not the inside host's destination address after translation."
+      },
+      "sources": [
+        "Study Notes/29 NAT - Network Address Translation/29-04 NAT Translations - Inside Local, Inside Global, Outside Local, Outside Global.pdf",
+        "Study Notes/29 NAT - Network Address Translation/29-08 PAT Port Address Translation.pdf"
+      ],
+      "source_sections": [
+        "NAT Definitions",
+        "PAT Port Address Translation; outbound and return translation examples"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/29%20NAT%20-%20Network%20Address%20Translation/29-04%20NAT%20Translations%20-%20Inside%20Local%2C%20Inside%20Global%2C%20Outside%20Local%2C%20Outside%20Global.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/29%20NAT%20-%20Network%20Address%20Translation/29-08%20PAT%20Port%20Address%20Translation.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 24,
+      "topic": "Interface-based PAT configuration",
+      "domain": "IP services",
+      "format": "short CLI configuration simulation",
+      "difficulty": "challenging",
+      "prompt": "This is a text-based Cisco IOS configuration simulation; no commands will run on a device. Start in global configuration mode.\n\n```text\nOffice LAN                 R1                         ISP\n10.42.8.0/24 -- Gi0/0 10.42.8.1/24\n                         Gi0/1 [IPv4 address from ISP DHCP] -- ISP\n```\n\nBoth interfaces are up. Their IP addressing, the default route, and return routing already work. Gi0/1 already uses ip address dhcp, and its address can change. There is no NAT configuration and no ACL 17. Assume classic IOS inside/outside NAT with overload support.\n\nConfigure R1 so that hosts in 10.42.8.0/24 share Gi0/1's current address for outbound connections, and new outbound connections continue to use that interface address after a DHCP address change. Use standard ACL 17 to identify exactly that /24. Include both interface NAT roles and the NAT rule. Do not change addressing or routing, and do not apply ACL 17 as an interface packet filter. Reply with IOS commands; exit and end are optional where the configuration context is otherwise clear.",
+      "options": null,
+      "correct_answer": "interface GigabitEthernet0/0\n ip nat inside\nexit\ninterface GigabitEthernet0/1\n ip nat outside\nexit\naccess-list 17 permit 10.42.8.0 0.0.0.255\nip nat inside source list 17 interface GigabitEthernet0/1 overload",
+      "rubric": {
+        "all_required": [
+          "Gi0/0 is designated ip nat inside",
+          "Gi0/1 is designated ip nat outside",
+          "Standard ACL 17 permits exactly 10.42.8.0/24 for NAT selection",
+          "An inside-source NAT rule references ACL 17 and the current address of Gi0/1 with overload",
+          "No commands violate the stated constraints or undo required outcomes"
+        ],
+        "equivalents": [
+          "Accept valid IOS command abbreviations and interface abbreviations",
+          "Accept ip access-list standard 17 with equivalent permit entries",
+          "Accept a different command order if contexts and final outcomes are correct",
+          "An explicit deny any after the ACL permit is equivalent to the implicit deny"
+        ],
+        "not_required": [
+          "configure terminal or enable",
+          "copy running-config startup-config",
+          "Verification commands",
+          "DHCP interface addressing or routing commands, which are already configured"
+        ]
+      },
+      "explanation": "The LAN-facing interface is inside and the ISP-facing interface is outside. ACL 17 selects the office /24. The interface overload rule multiplexes connections onto Gi0/1's current address; using the interface reference accommodates address changes. A fixed global address or ordinary dynamic NAT without overload would not satisfy the requirements.",
+      "distractor_explanations": {},
+      "sources": [
+        "Study Notes/29 NAT - Network Address Translation/29-08 PAT Port Address Translation.pdf",
+        "Lab Guide - External/29 NAT Configuration Lab Exercises/29-1 NAT Configuration Lab Exercise.pdf"
+      ],
+      "source_sections": [
+        "PAT with Single IP Address; PAT with Single IP Address Configuration",
+        "Port Address Translation PAT, tasks 11–18"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/29%20NAT%20-%20Network%20Address%20Translation/29-08%20PAT%20Port%20Address%20Translation.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Lab%20Guide%20-%20External/29%20NAT%20Configuration%20Lab%20Exercises/29-1%20NAT%20Configuration%20Lab%20Exercise.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 25,
+      "topic": "Secure remote administrative access",
+      "domain": "Security fundamentals",
+      "format": "single-answer multiple choice",
+      "difficulty": "easy",
+      "prompt": "An IOS router already has a valid RSA key, an enabled SSHv2 server, and a local administrator account. Every VTY line has login local configured. Which additional VTY command permits remote CLI sessions over SSH while excluding Telnet? Select one.",
+      "options": {
+        "A": "transport input all",
+        "B": "transport input telnet",
+        "C": "transport input ssh",
+        "D": "transport input none"
+      },
+      "correct_answer": "C",
+      "rubric": null,
+      "explanation": "transport input ssh restricts inbound VTY transport to SSH. The question supplies working SSH prerequisites and local authentication, so the remaining change is the allowed VTY transport.",
+      "distractor_explanations": {
+        "A": "all would also allow Telnet, contrary to the requirement.",
+        "B": "telnet allows the unencrypted protocol and excludes SSH.",
+        "D": "none disables incoming VTY transport, including the required SSH access."
+      },
+      "sources": [
+        "Study Notes/33 Cisco Device Security/33-06 SSH Secure Shell.pdf"
+      ],
+      "source_sections": [
+        "Telnet vs SSH; Disable Telnet"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/33%20Cisco%20Device%20Security/33-06%20SSH%20Secure%20Shell.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 26,
+      "topic": "Port security violation behavior",
+      "domain": "Security fundamentals",
+      "format": "multiple-answer; show-command analysis",
+      "difficulty": "medium",
+      "prompt": "Assume a Cisco IOS Layer 2 switch with port security supported on this static access port. The abbreviated output is:\n\n```text\nSW1# show port-security interface FastEthernet0/6\nPort Security              : Enabled\nPort Status                : Secure-up\nViolation Mode             : Restrict\nMaximum MAC Addresses      : 2\nTotal MAC Addresses        : 2\nSecurity Violation Count   : 3\n```\n\nThe two allowed source MAC addresses are still present. A third, unauthorized source MAC sends frames into the port while an allowed host also transmits. No other security feature is involved, and normal switching permits the allowed host's traffic. What does the configured violation mode cause? Select exactly TWO.",
+      "options": {
+        "A": "Frames from the unauthorized source are dropped, and violations are logged and counted.",
+        "B": "The port enters the error-disabled state and blocks both allowed and unauthorized sources.",
+        "C": "The third source is automatically added as another permitted secure MAC address.",
+        "D": "Frames from the already allowed sources continue to be forwarded.",
+        "E": "The configured maximum automatically increases from two to three."
+      },
+      "correct_answer": [
+        "A",
+        "D"
+      ],
+      "rubric": null,
+      "explanation": "Restrict drops unauthorized-source frames, logs violations, and increments the violation counter while continuing to forward permitted-source traffic. The displayed maximum remains two. The observed count does not imply the port has been shut down.",
+      "distractor_explanations": {
+        "B": "Error-disabling the entire interface is shutdown mode behavior, not restrict mode behavior.",
+        "C": "The configured maximum is already reached; the unauthorized third source is not automatically accepted.",
+        "E": "Violations do not increase the configured maximum."
+      },
+      "sources": [
+        "Study Notes/27 Switch Security/27-05 Preventing Unauthorised Devices with Port Security.pdf"
+      ],
+      "source_sections": [
+        "Security Violation Actions; Port Security Verification; Violation Action Configuration"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/27%20Switch%20Security/27-05%20Preventing%20Unauthorised%20Devices%20with%20Port%20Security.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 27,
+      "topic": "ACL first-match processing",
+      "domain": "Security fundamentals",
+      "format": "single-answer multiple choice; configuration interpretation",
+      "difficulty": "medium",
+      "prompt": "An IOS router applies the following IPv4 ACL outbound on Gi0/1:\n\n```text\nip access-list extended OFFICE_OUT\n 10 permit tcp 10.14.0.0 0.0.0.255 host 10.90.0.20 eq 80\n 20 deny ip host 10.14.0.25 any\n 30 permit ip any any\n!\ninterface GigabitEthernet0/1\n ip access-group OFFICE_OUT out\n```\n\nThe router is forwarding a TCP packet from 10.14.0.25, source port 49160, to 10.90.0.20, destination port 80, out Gi0/1. It originated on a LAN host, not on the router. Routing is valid and no other filter applies. What happens at this ACL? Select one.",
+      "options": {
+        "A": "It is denied by sequence 20 because the host-specific source overrides a subnet permit.",
+        "B": "It is permitted by sequence 10, and no later entry is evaluated for this packet.",
+        "C": "It is permitted by sequence 30 after all entries are evaluated.",
+        "D": "It is denied by the implicit deny because its source TCP port is not 80."
+      },
+      "correct_answer": "B",
+      "rubric": null,
+      "explanation": "Sequence 10 matches TCP, source 10.14.0.25 within the permitted /24, destination 10.90.0.20, and destination port 80. IOS stops at that first match. ACLs do not choose the most specific entry the way a routing table chooses the longest matching prefix.",
+      "distractor_explanations": {
+        "A": "A later host-specific deny does not override an earlier matching permit.",
+        "C": "Processing stops at sequence 10; sequence 30 is not reached.",
+        "D": "The eq 80 after the destination address tests destination port 80. The source port is unrestricted by this entry."
+      },
+      "sources": [
+        "Study Notes/28 ACLs - Access Control Lists/28-04 ACL Syntax.pdf",
+        "Study Notes/28 ACLs - Access Control Lists/28-05 ACL Operations.pdf"
+      ],
+      "source_sections": [
+        "Source Port Number; Destination Address; Final Options",
+        "Access Control Entry Order; Access-Group Configuration"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/28%20ACLs%20-%20Access%20Control%20Lists/28-04%20ACL%20Syntax.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/28%20ACLs%20-%20Access%20Control%20Lists/28-05%20ACL%20Operations.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 28,
+      "topic": "Extended ACL policy configuration",
+      "domain": "Security fundamentals",
+      "format": "short CLI configuration simulation",
+      "difficulty": "challenging",
+      "prompt": "This is a text-based Cisco IOS configuration simulation; no commands will run on a device. Start in global configuration mode.\n\n```text\nWorkstation LAN                  R1                    Server LAN\n10.12.30.0/24 -- Gi0/0 10.12.30.1/24\n                             Gi0/1 10.50.0.1/24 -- server 10.50.0.20\nAdmin workstation: 10.12.30.10\n```\n\nInterfaces, routes, and host gateways already work. No ACLs are configured. Assume classic IOS IPv4 extended ACL support. Configure a named extended ACL called STAFF_FILTER and apply it inbound on Gi0/0 to implement all of these requirements:\n\n- Permit TCP traffic from 10.12.30.10 to server 10.50.0.20, destination port 22.\n- Deny TCP traffic from every other source entering Gi0/0 to that same server and destination port.\n- Permit all other transit IPv4 traffic entering Gi0/0.\n\nThis policy filters forwarded traffic; it does not configure the router's own SSH service. Reply with the ACL entries and interface application commands. Valid equivalent IOS syntax is accepted; exit and end are optional where the configuration context is otherwise clear.",
+      "options": null,
+      "correct_answer": "ip access-list extended STAFF_FILTER\n permit tcp host 10.12.30.10 host 10.50.0.20 eq 22\n deny tcp any host 10.50.0.20 eq 22\n permit ip any any\nexit\ninterface GigabitEthernet0/0\n ip access-group STAFF_FILTER in",
+      "rubric": {
+        "all_required": [
+          "Create named extended IPv4 ACL STAFF_FILTER",
+          "Permit 10.12.30.10 TCP traffic to 10.50.0.20 destination port 22",
+          "Deny all other sources to that TCP destination service",
+          "Permit every other transit IPv4 packet entering Gi0/0",
+          "Apply STAFF_FILTER inbound on Gi0/0",
+          "Rule ordering and any extra commands preserve every required outcome"
+        ],
+        "equivalents": [
+          "Accept valid abbreviations",
+          "Accept host A or A 0.0.0.0",
+          "Accept any or 0.0.0.0 255.255.255.255",
+          "Accept the IOS service keyword ssh for port 22 where supported under the stated IOS assumption",
+          "Accept optional sequence numbers and equivalent ordered entries",
+          "Accept different valid rule structures that satisfy the full policy for all possible IPv4 source addresses"
+        ],
+        "not_required": [
+          "enable or configure terminal",
+          "Saving or verification commands",
+          "VTY, RSA, username, interface addressing or routing configuration"
+        ]
+      },
+      "explanation": "The administrator's TCP/22 exception must match before the general deny for that server's TCP/22 service. The final permit ip any any preserves unrelated IPv4 traffic that the implicit deny would otherwise block. Applying the ACL inbound on Gi0/0 filters packets as they enter from the workstation LAN. A deny limited only to the displayed /24 does not implement the stated every-other-source requirement for all packets entering that interface.",
+      "distractor_explanations": {},
+      "sources": [
+        "Study Notes/28 ACLs - Access Control Lists/28-03 Standard, Extended and Named ACLs.pdf",
+        "Study Notes/28 ACLs - Access Control Lists/28-04 ACL Syntax.pdf",
+        "Study Notes/28 ACLs - Access Control Lists/28-05 ACL Operations.pdf",
+        "Lab Guide - External/28 ACL Configuration Lab Exercises/28-1 ACL Configuration Lab Exercise.pdf"
+      ],
+      "source_sections": [
+        "Named ACL Syntax; Extended Access List Example",
+        "Wildcards; Destination Address; Final Options",
+        "Access Control Entry Order; Explicit Permit All; Access Groups",
+        "Named Extended ACL, tasks 7–9"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/28%20ACLs%20-%20Access%20Control%20Lists/28-03%20Standard%2C%20Extended%20and%20Named%20ACLs.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/28%20ACLs%20-%20Access%20Control%20Lists/28-04%20ACL%20Syntax.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/28%20ACLs%20-%20Access%20Control%20Lists/28-05%20ACL%20Operations.pdf",
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Lab%20Guide%20-%20External/28%20ACL%20Configuration%20Lab%20Exercises/28-1%20ACL%20Configuration%20Lab%20Exercise.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 29,
+      "topic": "JSON data types",
+      "domain": "Automation",
+      "format": "single-answer multiple choice",
+      "difficulty": "easy",
+      "prompt": "An automation service returns this valid JSON response:\n\n```json\n{\n  \"interface\": {\n    \"name\": \"GigabitEthernet1/0/8\",\n    \"enabled\": false,\n    \"vlans\": [20, 40]\n  }\n}\n```\n\nWhat is the JSON data type of the value assigned to `enabled`? Select **one** answer.",
+      "options": {
+        "A": "String",
+        "B": "Number",
+        "C": "Boolean",
+        "D": "Array"
+      },
+      "correct_answer": "C",
+      "rubric": null,
+      "explanation": "The unquoted literal false is a JSON Boolean value. Quoting it as \"false\" would make it a string.",
+      "distractor_explanations": {
+        "A": "JSON string values are enclosed in double quotes; false here is not.",
+        "B": "JSON numbers are numeric literals, such as 20 or 40.",
+        "D": "Arrays are lists enclosed in square brackets, such as the value of vlans."
+      },
+      "sources": [
+        "Study Notes/38 Network Automation and Programmability/38-04 Data Serialization Formats - XML, JSON and YAML.pdf"
+      ],
+      "source_sections": [
+        "JSON Data Types",
+        "JSON Data Types: Array"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/38%20Network%20Automation%20and%20Programmability/38-04%20Data%20Serialization%20Formats%20-%20XML%2C%20JSON%20and%20YAML.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    },
+    {
+      "id": 30,
+      "topic": "Controller architecture and API direction",
+      "domain": "Automation",
+      "format": "multiple-answer multiple choice",
+      "difficulty": "medium",
+      "prompt": "A network uses the controller architecture shown below. A business application sends policy requests to the controller over REST. The controller sends configuration to the infrastructure switches over NETCONF. The switches forward user packets.\n\n```text\nBusiness application\n        |\n        | REST policy requests\n        |\n  SDN controller\n        |\n        | NETCONF configuration\n        |\nInfrastructure switches\n```\n\nWhich **two** statements correctly describe this architecture? Select **exactly two** answers.",
+      "options": {
+        "A": "The REST connection between the application and controller uses a northbound API.",
+        "B": "The NETCONF connection between the controller and switches uses a northbound API.",
+        "C": "The switches perform the management-plane function when they forward user packets.",
+        "D": "The NETCONF connection between the controller and switches uses a southbound API.",
+        "E": "The REST connection is classified as southbound because the application sends requests downward in the diagram."
+      },
+      "correct_answer": [
+        "A",
+        "D"
+      ],
+      "rubric": null,
+      "explanation": "In the three-layer SDN architecture, northbound APIs connect the application layer to the controller layer, while southbound APIs connect the controller layer to the infrastructure layer. The direction in which an individual message travels does not rename the API. Forwarding user traffic is a data-plane function.",
+      "distractor_explanations": {
+        "B": "Controller-to-infrastructure communication uses the southbound API in this architecture.",
+        "C": "Forwarding user packets belongs to the data plane. The management plane is used to configure and monitor devices.",
+        "E": "The API classification follows the layers it connects, not the direction of an individual request or the way a diagram is drawn."
+      },
+      "sources": [
+        "Study Notes/38 Network Automation and Programmability/38-10 SDN Software Defined Networking.pdf"
+      ],
+      "source_sections": [
+        "Router and Switch Planes",
+        "SDN Architecture"
+      ],
+      "source_links": [
+        "https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/blob/6603a64e014dc7fa9fa0cb28a0ca383490e4b844/Study%20Notes/38%20Network%20Automation%20and%20Programmability/38-10%20SDN%20Software%20Defined%20Networking.pdf"
+      ],
+      "supplemental": false,
+      "verification": "Independently reviewed before exam start; source text inspected."
+    }
+  ]
+}
