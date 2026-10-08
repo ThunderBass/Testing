@@ -1,4 +1,4 @@
-# PacketWise — CCNA practice
+# PacketWise CCNA practice
 
 A responsive, browser-based practice exam built from selected materials in [Packt's CCNA resource repository](https://github.com/PacktPublishing/Cisco-CCNA-200-301-The-Complete-Guide-to-Getting-Certified/tree/6603a64e014dc7fa9fa0cb28a0ca383490e4b844).
 
