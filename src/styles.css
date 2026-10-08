@@ -948,3 +948,39 @@ body.modal-open { overflow: hidden; }
   .revisit-item { flex-wrap: wrap; gap: 6px; }
   .revisit-item span { font-size: 11px; }
 }
+
+/* Larger reading and control text across desktop and mobile. */
+.question-prompt { font-size: 20px; }
+.option-text, .review-question, .review-explanation { font-size: 18px; }
+.matching-row select, .matching-row label, .ordering-inputs .matching-row label,
+.review-filter-label select, .cli-editor textarea, .question-prompt pre,
+.question-prompt table, .question-prompt pre code, .option-text code,
+.answer-comparison pre, .modal-body, .modal-intro, .nav-item,
+.page-heading p, .source-card p, .guide-grid p, .guide-controls span,
+.distractor-list p, .lab-card ol, .priority-card p { font-size: 16px; }
+.secondary-button, .primary-button, .ghost-button,
+.question-footer .primary-button, .question-footer .secondary-button,
+.question-footer .ghost-button, .workspace-toolbar .mode-switch button,
+.overview-footer button, .matching-row .order-number, .question-dot,
+.card-heading h2, .card-heading .overview-count, .answer-hint, .answer-error,
+.breadcrumbs, .save-status, .source-card .source-link, .source-credit,
+.path-item, .sidebar-tip p, .sidebar-tip > strong, .help-nav,
+.review-sources a, .rubric-details, .small-note { font-size: 14px; }
+.question-progress .question-kicker, .question-progress .question-type,
+.question-kicker > span, .overview-count > span, .progress-caption,
+.legend, .mode-note, .timer-label, .eyebrow, .source-card > .eyebrow,
+.source-card .eyebrow, .source-credit small, .bottom-note,
+.bottom-note > button, .source-strip > span, .source-strip > button,
+.site-footer, .site-footer > button, .nav-section-label, .nav-pill,
+.path-item small, .sidebar-tip > button, .user-name, .user-role,
+.terminal-header, .terminal-footer, .simulation-label { font-size: 12px; }
+@media (max-width: 480px) {
+  .question-prompt { font-size: 18px; }
+  .option-text { font-size: 16px; }
+  .question-progress .question-kicker, .question-progress .question-type,
+  .question-kicker > span, .mode-note, .timer-label { font-size: 11px; }
+  .breadcrumbs { font-size: 12px; }
+  .workspace-toolbar .mode-switch button { font-size: 13px; }
+  .mode-note { font-size: 10px; }
+  .save-status { font-size: 0; }
+}
