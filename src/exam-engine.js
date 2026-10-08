@@ -36,10 +36,31 @@ export function normalizeResponse(question, input) {
   return Object.fromEntries(values.map((v, i) => [String(i + 1), v]));
 }
 
-export function createSession(questions, { carryOver = true } = {}) {
+export function createSession(questions, { carryOver = false } = {}) {
   const ids = questions.map(q => q.id);
   const resume = carryOver && ids[0] === 1 && ids[1] === 2;
   return { version: 1, questionIds: ids, currentIndex: resume ? 1 : 0, answers: resume ? { 1: 'A' } : {}, skippedIds: [], viewedIds: ids.length ? (resume ? [1, 2] : [ids[0]]) : [], mode: 'exam', status: ids.length ? 'active' : 'finished', startedAt: new Date().toISOString(), finishedAt: null, selfAssessments: {} };
+}
+const validResumeIndex = (session, index) => Number.isInteger(index) && index >= 0 && index <= session.questionIds.length && (index === session.questionIds.length || session.viewedIds.includes(session.questionIds[index]));
+/** Revisit only questions already presented, preserving the forward position. */
+export function revisitQuestion(session, id) {
+  if (session.status !== 'active') return session;
+  const index = session.questionIds.indexOf(id);
+  if (index < 0 || !session.viewedIds.includes(id) || index === session.currentIndex) return session;
+  if (!validResumeIndex(session, session.currentIndex) || (Object.hasOwn(session, 'resumeIndex') && !validResumeIndex(session, session.resumeIndex))) return session;
+  if (index === session.resumeIndex) return returnToExam(session);
+  const next = clone(session);
+  if (!Object.hasOwn(next, 'resumeIndex')) next.resumeIndex = next.currentIndex;
+  next.currentIndex = index;
+  return next;
+}
+/** Return from a revisit without changing answers or presenting a new question. */
+export function returnToExam(session) {
+  if (session.status !== 'active' || !Object.hasOwn(session, 'resumeIndex') || !validResumeIndex(session, session.resumeIndex)) return session;
+  const next = clone(session);
+  next.currentIndex = next.resumeIndex;
+  delete next.resumeIndex;
+  return next;
 }
 function advance(session, question, response, skip) {
   if (session.status !== 'active' || session.questionIds[session.currentIndex] !== question.id) return session;
@@ -51,9 +72,10 @@ function advance(session, question, response, skip) {
     next.answers[question.id] = normalizeResponse(question, response);
     next.skippedIds = next.skippedIds.filter(id => id !== question.id);
   }
+  if (next.selfAssessments) delete next.selfAssessments[question.id];
+  if (Object.hasOwn(next, 'resumeIndex')) return returnToExam(next);
   next.currentIndex += 1;
-  if (next.currentIndex >= next.questionIds.length) return finishSession(next);
-  next.viewedIds = [...new Set([...next.viewedIds, next.questionIds[next.currentIndex]])];
+  if (next.currentIndex < next.questionIds.length) next.viewedIds = [...new Set([...next.viewedIds, next.questionIds[next.currentIndex]])];
   return next;
 }
 export const recordAnswer = (session, question, answer) => empty(normalizeResponse(question, answer)) ? session : advance(session, question, answer, false);

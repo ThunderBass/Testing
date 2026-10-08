@@ -19,7 +19,7 @@ Use the URL printed by Vite in your local terminal. This repository needs no API
 npm run build
 ```
 
-Open `dist/packetwise.html` directly in a browser. This standalone file includes the exam, fonts, styles, and scripts. Source links require internet access, but the exam itself works offline. The `dist` directory is also deployable to any static host. Deployment is not automatic.
+Open `dist/packetwise.html` directly in a browser. This standalone file includes the exam, fonts, styles, and scripts. Source links require internet access, but the exam itself works offline. The `dist` directory is also deployable to any static host. Pushes to `main` deploy automatically through the included GitHub Pages workflow.
 
 ## Features
 
@@ -27,11 +27,13 @@ Open `dist/packetwise.html` directly in a browser. This standalone file includes
 - One question at a time; exact-count multiple choice, matching, ordering, and five CLI simulations.
 - Exam mode conceals correctness; study mode gives immediate feedback.
 - Optional countdown, skips, flags, early finishing, and browser-local persistence.
+- Revisit skipped, flagged, or answered questions without losing your place; submit changes before returning.
+- Review checkpoint before grading, and a fresh-start control with a restorable previous attempt.
 - Full-exam score and attempted accuracy; skipped, unanswered, and unpresented counts remain distinct.
 - Source-linked explanations, topic results, three study priorities, lab recommendations, and Markdown export.
 - A ten-question retest selected from eighteen additional original questions; it starts only on request.
 
-The first browser session resumes the prior chat response (Question 1: A) at Question 2. After finishing, **Restart the full exam** creates a clean session. Local storage is specific to the browser and origin; it is not a cloud account.
+New visitors start at Question 1. Existing saved attempts keep their answers, drafts, flags, timer, and position across updates. **Start fresh** begins a clean 30-question attempt and keeps one previous attempt, available through **Restore previous attempt** in the sidebar. Local storage is specific to the browser and origin; it is not a cloud account. Clearing browser data removes both attempts.
 
 ## CLI assessment
 
@@ -51,15 +53,16 @@ npm run build
 npm run dev -- --port 5173
 # In another terminal:
 npm run test:browser
+node tests/qol-browser.mjs
 ```
 
-Browser tests use the system Chromium at `/usr/bin/chromium`. Set `CHROMIUM_PATH` to your local Chromium executable, and `SITE_URL` if using another port. They exercise all question formats, scoring, persistence, early completion, study feedback, review export, retest, mobile layout, and accessibility. Screenshots and reports are saved in the ignored `artifacts/` directory.
+Browser tests use the system Chromium at `/usr/bin/chromium`. Set `CHROMIUM_PATH` to your local Chromium executable, and `SITE_URL` if using another port. They exercise all question formats, scoring, persistence, early completion, study feedback, review export, retest, mobile layout, and accessibility. The QoL suite also checks legacy saved progress, revisit navigation, the review checkpoint, and fresh-start restoration. Screenshots and reports are saved in the ignored `artifacts/` directory.
 
 The application uses DM Sans under the SIL Open Font License, Marked under MIT, and DOMPurify under Apache-2.0 or MPL-2.0. Build output includes third-party license notices.
 
 ## Public hosting with GitHub Pages
 
-The included `.github/workflows/deploy-pages.yml` builds, tests, and publishes only `dist/` when `main` changes. It uses GitHub's built-in workflow token; no hosting API key is stored in this repository.
+The included `.github/workflows/deploy-pages.yml` builds, tests, and publishes only `dist/` when `main` changes. This is the sole Pages deployment workflow: the static and Jekyll starter templates are incompatible with this Vite build. It uses GitHub's built-in workflow token; no hosting API key is stored in this repository.
 
 For the first deployment, open the repository's **Settings → Pages** and choose **GitHub Actions** as the build-and-deployment source. Then run **Deploy PacketWise to GitHub Pages** from the **Actions** tab (or push a change to `main`). GitHub reports the live URL in the deployment result; for this repository the expected project-site URL is `https://thunderbass.github.io/Testing/` after deployment succeeds.
 

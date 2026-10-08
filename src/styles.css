@@ -919,3 +919,32 @@ body.modal-open { overflow: hidden; }
   .source-card .source-link { min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+
+/* Exam navigation and pre-grading review. */
+.question-dot:not(:disabled) { color: #465e40; }
+.question-dot.skipped:not(:disabled) { color: #75602b; }
+.review-shortcuts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.review-shortcuts button { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; color: #506a44; }
+.review-shortcuts .icon { width: 12px; height: 12px; }
+.overview-footer .restart-link { border: 0; margin-top: 10px; color: #53674a; background: transparent; }
+.revisit-note { padding: 12px 15px; border-radius: 7px; background: #edf4e7; color: #46623f; font-size: 12px; line-height: 1.7; }
+.revisit-list { display: grid; gap: 10px; }
+.revisit-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; text-align: left; border: 1px solid #dce5d3; border-radius: 8px; background: #f8faf5; color: #425b3e; }
+.revisit-item strong { font-weight: 600; }
+.revisit-item span { margin-left: auto; font-size: 12px; }
+.revisit-item .icon { width: 14px; height: 14px; flex-shrink: 0; }
+.checkpoint { align-self: start; padding: 32px; }
+.checkpoint h2 { margin: 14px 0; font-size: 27px; letter-spacing: -.7px; line-height: 1.3; }
+.checkpoint > p { font-size: 14px; line-height: 1.9; color: #526749; }
+.checkpoint > .small-note { font-size: 12px; margin: 20px 0; }
+.checkpoint-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+.checkpoint .progress-stats { display: flex; flex-wrap: wrap; gap: 25px; }
+.question-prompt ul { padding-left: 23px; }
+.question-prompt ul li { padding-left: 3px; margin: 8px 0; }
+.nav-item[data-action="restore"] { align-items: flex-start; font-size: 12px; line-height: 1.6; }
+@media (max-width: 480px) {
+  .checkpoint { padding: 24px; }
+  .checkpoint h2 { font-size: 24px; }
+  .revisit-item { flex-wrap: wrap; gap: 6px; }
+  .revisit-item span { font-size: 11px; }
+}

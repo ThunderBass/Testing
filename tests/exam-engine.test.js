@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { createSession, recordAnswer, skipQuestion, finishSession, gradeQuestion, getResults, normalizeResponse, setMode, reviewAnswer } from '../src/exam-engine.js';
+import { createSession, recordAnswer, skipQuestion, finishSession, gradeQuestion, getResults, normalizeResponse, setMode, reviewAnswer, revisitQuestion, returnToExam } from '../src/exam-engine.js';
 
 const candidates = [new URL('../src/exam-data.json', import.meta.url), new URL('../src/data/exam-plan.json', import.meta.url), new URL('../src/exam-plan.json', import.meta.url), new URL('../public/exam-plan.json', import.meta.url), '/workspace/scratch/ccna-practice/exam-plan.json'];
 let plan;
@@ -12,7 +12,7 @@ const cli = id => Array.isArray(q(id).correct_answer) ? q(id).correct_answer.joi
 const check = (id, text, status) => assert.equal(gradeQuestion(q(id), text).status, status, `Question ${id}: ${text}`);
 
 test('resumes prior answer without changing the fixed question plan', () => {
-  const session = createSession(questions);
+  const session = createSession(questions, { carryOver: true });
   assert.deepEqual(session.answers, { 1: 'A' });
   assert.equal(session.currentIndex, 1);
   assert.deepEqual(session.viewedIds, [1, 2]);
@@ -27,7 +27,7 @@ test('resumes prior answer without changing the fixed question plan', () => {
 });
 
 test('finish distinguishes skipped, viewed unanswered, and unpresented questions', () => {
-  let session = createSession(questions);
+  let session = createSession(questions, { carryOver: true });
   session = skipQuestion(session, q(2));
   session = recordAnswer(session, q(3), 'C');
   const results = getResults(questions, finishSession(session));
@@ -43,15 +43,149 @@ test('finish distinguishes skipped, viewed unanswered, and unpresented questions
   assert.equal(results.total, results.correct + results.incorrect + results.skipped + results.unanswered + results.unpresented + results.needsReview);
 });
 
-test('finishes after final answer and ignores resubmissions or empty answers', () => {
+test('new sessions begin at question one without a carried-over answer', () => {
+  const session = createSession(questions);
+  assert.equal(session.currentIndex, 0);
+  assert.deepEqual(session.answers, {});
+  assert.deepEqual(session.viewedIds, [1]);
+});
+
+test('final answer reaches a review checkpoint until explicitly finished', () => {
   let s = createSession([q(1), q(2)], { carryOver: false });
   assert.equal(recordAnswer(s, q(1), ''), s);
   assert.equal(recordAnswer(s, q(2), 'C'), s);
   s = recordAnswer(s, q(1), 'B');
   s = recordAnswer(s, q(2), 'C');
+  assert.equal(s.status, 'active');
+  assert.equal(s.currentIndex, 2);
+  assert.equal(s.finishedAt, null);
+  assert.deepEqual(s.viewedIds, [1, 2]);
+  assert.equal(recordAnswer(s, q(2), 'A'), s);
+  s = finishSession(s);
   assert.equal(s.status, 'finished');
+  assert.ok(s.finishedAt);
   assert.equal(recordAnswer(s, q(2), 'A'), s);
   assert.equal(getResults([q(1), q(2)], s).score, 2);
+});
+
+test('revisiting a skipped question records one answer then resumes the forward question', () => {
+  let session = createSession(questions);
+  session = skipQuestion(session, q(1));
+  session = recordAnswer(session, q(2), 'C');
+  const before = JSON.parse(JSON.stringify(session));
+  const revisit = revisitQuestion(session, 1);
+  assert.deepEqual(session, before, 'Navigation must not mutate the saved session');
+  assert.equal(revisit.currentIndex, 0);
+  assert.equal(revisit.resumeIndex, 2);
+  assert.deepEqual(revisit.viewedIds, [1, 2, 3]);
+  const recorded = recordAnswer(revisit, q(1), 'B');
+  assert.equal(recorded.currentIndex, 2);
+  assert.equal(Object.hasOwn(recorded, 'resumeIndex'), false);
+  assert.deepEqual(recorded.skippedIds, []);
+  assert.deepEqual(recorded.answers, { 1: 'B', 2: 'C' });
+  assert.deepEqual(recorded.questionIds, session.questionIds);
+  const results = getResults(questions, finishSession(recorded));
+  assert.equal(results.attempted, 2);
+  assert.equal(results.correct, 2);
+  assert.equal(results.skipped, 0);
+  assert.equal(results.unanswered, 1);
+  assert.equal(results.unpresented, 27);
+});
+
+test('revisit chains and reloads keep the original resume position', () => {
+  let session = createSession(questions);
+  session = recordAnswer(session, q(1), 'A');
+  session = skipQuestion(session, q(2));
+  session = recordAnswer(session, q(3), 'C');
+  session = revisitQuestion(session, 1);
+  session = JSON.parse(JSON.stringify(session));
+  session = revisitQuestion(session, 2);
+  assert.equal(session.currentIndex, 1);
+  assert.equal(session.resumeIndex, 3);
+  const before = JSON.parse(JSON.stringify(session));
+  const returned = returnToExam(session);
+  assert.deepEqual(session, before);
+  assert.equal(returned.currentIndex, 3);
+  assert.equal(Object.hasOwn(returned, 'resumeIndex'), false);
+  assert.deepEqual(returned.answers, { 1: 'A', 3: 'C' });
+  assert.deepEqual(returned.skippedIds, [2]);
+  assert.deepEqual(returned.viewedIds, [1, 2, 3, 4]);
+});
+
+test('resubmitting or skipping a revisit replaces the response and clears stale assessment', () => {
+  let session = createSession([q(28), q(29)]);
+  session = recordAnswer(session, q(28), cli(28));
+  session.selfAssessments[28] = false;
+  session = revisitQuestion(session, 28);
+  session = recordAnswer(session, q(28), cli(28));
+  assert.equal(session.currentIndex, 1);
+  assert.equal(Object.hasOwn(session.selfAssessments, 28), false);
+  assert.equal(getResults([q(28), q(29)], session).attempted, 1);
+  session = revisitQuestion(session, 28);
+  session = skipQuestion(session, q(28));
+  assert.equal(session.currentIndex, 1);
+  assert.deepEqual(session.answers, {});
+  assert.deepEqual(session.skippedIds, [28]);
+  session = skipQuestion(revisitQuestion(session, 28), q(28));
+  assert.deepEqual(session.skippedIds, [28], 'Repeated skips must not duplicate counts');
+  assert.equal(getResults([q(28), q(29)], session).attempted, 0);
+});
+
+test('selecting the forward question in the grid ends a revisit and resumes normal advancement', () => {
+  let session = createSession(questions);
+  session = recordAnswer(session, q(1), 'B');
+  session = revisitQuestion(session, 1);
+  assert.equal(session.resumeIndex, 1);
+  session = revisitQuestion(session, 2);
+  assert.equal(session.currentIndex, 1);
+  assert.equal(Object.hasOwn(session, 'resumeIndex'), false);
+  session = recordAnswer(session, q(2), 'C');
+  assert.equal(session.currentIndex, 2);
+  assert.deepEqual(session.viewedIds, [1, 2, 3]);
+});
+
+test('the review checkpoint permits revisits without automatically revealing results', () => {
+  let session = createSession([q(1), q(2)]);
+  session = skipQuestion(session, q(1));
+  session = skipQuestion(session, q(2));
+  assert.equal(session.status, 'active');
+  assert.equal(session.currentIndex, 2);
+  session = recordAnswer(revisitQuestion(session, 1), q(1), 'B');
+  assert.equal(session.status, 'active');
+  assert.equal(session.currentIndex, 2);
+  assert.equal(session.finishedAt, null);
+  const revisiting = revisitQuestion(session, 2);
+  assert.equal(revisiting.resumeIndex, 2);
+  assert.equal(returnToExam(revisiting).currentIndex, 2);
+  const results = getResults([q(1), q(2)], finishSession(session));
+  assert.equal(results.correct, 1);
+  assert.equal(results.skipped, 1);
+  assert.equal(results.unpresented, 0);
+});
+
+test('legacy sessions work without resume metadata and invalid navigation is ignored', () => {
+  const legacy = createSession(questions, { carryOver: true });
+  delete legacy.selfAssessments;
+  assert.equal(Object.hasOwn(legacy, 'resumeIndex'), false);
+  assert.equal(returnToExam(legacy), legacy);
+  assert.equal(revisitQuestion(legacy, 2), legacy, 'Current question is already open');
+  assert.equal(revisitQuestion(legacy, 3), legacy, 'Unpresented questions stay inaccessible');
+  assert.equal(revisitQuestion(legacy, 999), legacy);
+  assert.equal(revisitQuestion(legacy, '1'), legacy);
+  const resumed = recordAnswer(revisitQuestion(legacy, 1), q(1), 'B');
+  assert.equal(resumed.currentIndex, 1);
+  assert.equal(resumed.answers[1], 'B');
+  assert.deepEqual(resumed.viewedIds, [1, 2]);
+  for (const resumeIndex of [-1, 3, 31, null, '1']) {
+    const corrupt = { ...legacy, resumeIndex };
+    assert.equal(returnToExam(corrupt), corrupt);
+    assert.equal(revisitQuestion(corrupt, 1), corrupt);
+  }
+  const finished = finishSession(revisitQuestion(legacy, 1));
+  assert.equal(revisitQuestion(finished, 2), finished);
+  assert.equal(returnToExam(finished), finished);
+  assert.equal(recordAnswer(finished, q(1), 'B'), finished);
+  assert.equal(skipQuestion(finished, q(1)), finished);
 });
 
 test('every published answer key passes', () => {

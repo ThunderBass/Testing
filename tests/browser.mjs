@@ -18,8 +18,9 @@ async function answer(page,q){
 }
 try{
  const {context,page}=await create();
- assert.match(await page.locator('.question-kicker').innerText(),/02.*30/);
- assert.equal(await page.locator('.question-dot.answered').count(),1);
+ assert.match(await page.locator('.question-kicker').innerText(),/01.*30/);
+ assert.equal(await page.locator('.question-dot.answered').count(),0);
+ await page.locator('.answer-option:has(input[value="A"])').click();await page.locator('[data-action="submit"]').click();
  await page.screenshot({path:'artifacts/desktop.png',fullPage:false});
  await page.locator('[data-action="submit"]').click();assert.match(await page.locator('#answer-error').innerText(),/Choose an answer/);
  await page.locator('[data-action="flag"]').click();assert.equal(await page.locator('.question-dot.flagged').count(),1);
@@ -30,6 +31,8 @@ try{
   if(q.id===8)await page.screenshot({path:'artifacts/cli.png',fullPage:false});
   await answer(page,q);
  }
+ await page.waitForSelector('.checkpoint');assert.equal(await page.locator('.results-hero').count(),0);
+ await page.locator('[data-action="finish"]').first().click();await page.locator('[data-action="confirm-finish"]').click();
  await page.waitForSelector('.results-hero');
  assert.match(await page.locator('.big-score').innerText(),/29\s*\/\s*30/);
  assert.equal(await page.locator('.review-item').count(),30);
@@ -40,8 +43,8 @@ try{
  const downloadPromise=page.waitForEvent('download');await page.locator('[data-action="download"]').click();const download=await downloadPromise;assert.match(download.suggestedFilename(),/review.md$/);
  await page.locator('[data-action="retest"]').click();await page.locator('[data-action="confirm-retest"]').click();await page.waitForSelector('.question-card');assert.match(await page.locator('.question-kicker').innerText(),/01.*10/);assert.equal(await page.locator('.question-dot').count(),10);
  await context.close();
- reports.push({flow:'all question formats, 29/30 carry-over result, source review, export, focused retest',passed:true});
- const study=await create(390,844);await study.page.screenshot({path:'artifacts/mobile.png',fullPage:true});
+ reports.push({flow:'all question formats, 29/30 result, source review, export, focused retest',passed:true});
+ const study=await create(390,844);await study.page.locator('.answer-option:has(input[value="A"])').click();await study.page.locator('[data-action="submit"]').click();await study.page.screenshot({path:'artifacts/mobile.png',fullPage:true});
  const noOverflow=await study.page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth);assert.ok(noOverflow,'Mobile page overflows horizontally');
  await study.page.locator('[data-action="mode-study"]').click();await answer(study.page,questions[1]);await study.page.waitForSelector('[role="dialog"]');assert.match(await study.page.locator('.modal-title,#modal-title').innerText(),/correct/);await study.page.locator('[data-action="continue-study"]').last().click();assert.match(await study.page.locator('.question-kicker').innerText(),/03/);
  await study.page.locator('[data-action="skip"]').click();assert.match(await study.page.locator('.question-kicker').innerText(),/04/);
